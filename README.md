@@ -21,11 +21,17 @@ python3 utilities/api-testing.py
 
 # Wykonywanie programu (21-10-2025):
 ```
-Ścieżka do źródła programu jest ustalana w zmiennej środowiskowej 
-`AI_SEARCH_PATH`
+Ścieżka do kluczy api jest ustalana w zmiennej środowiskowej 
+`AI_API_KEYS`
 bazowo jako ścieżka wykonania skryptu + "/api_keys.json"
 
+Ścieżka do przykładowej bazy danych jest ustalana w zmiennej środowiskowej 
+`AI_DB_PATH`
+bazowo jako ścieżka wykonania skryptu + "/db.json"
+
+
+
 przykład wykonania skryptu:
-python3 src/main.py "Przywitaj się"
+python3 src/main.py "Znajdź mi najtańsze buty"
 
 ```
