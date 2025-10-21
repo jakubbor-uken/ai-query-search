@@ -22,9 +22,9 @@ class QueryHandler:
             print(f"Error: Invalid JSON in {path}")
             self.db = None
 
-    def send_query(self, query):
+    def send_query(self, query, model):
         if (self.db is None):
             raise ValueError("Database was not read correctly, ensure correct path and format")
 
         print("Sending query to AI search:", query)
-        self.ai_search.search(query, self.db)
+        self.ai_search.search(query, self.db, model)

@@ -5,20 +5,21 @@ from openai import OpenAI
 class ApiHandler:
     def __init__(self):
         print("ApiHandler initialized")
-        self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety danych które najbardziej jej odpowiadają i zwróć je, dane podane są poniżej: ###\n"
+        self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety danych które najbardziej jej odpowiadają i zwróć wszystkie podane dane w odpowiedniej kolejności priorytetów, jedyny tekst jaki masz zwrócić w swojej odpowiedzi to te dane i ich ID w tym samym formacie w którym zostały podane (json), dane podane są poniżej: ###\n"
 
-    def send_request(self, query, db, api_provider):
+    def send_request(self, query, db, api_provider, model):
         response = None
         if api_provider == "huggingface":
-            response = self.huggingface_request(query, db)
+            response = self.huggingface_request(query, db, model)
         else:
             raise ValueError("Wrong API provider specified, please verify")
 
         return response
 
 
-    def huggingface_request(self, query, db):
+    def huggingface_request(self, query, db, model):
         print("Sending request to HuggingFace API")
+        print("Model:", model)
 
         with open(f'{os.environ["AI_API_KEYS"]}', 'r') as f:
             api_keys = json.load(f)
@@ -35,7 +36,7 @@ class ApiHandler:
         )
 
         completion = client.chat.completions.create(
-            model="moonshotai/Kimi-K2-Instruct-0905",
+            model=model,
             messages=[
                 {
                     "role": "user",

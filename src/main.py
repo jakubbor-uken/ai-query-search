@@ -21,6 +21,13 @@ if __name__ == '__main__':
     print("Database path:", os.environ["AI_DB_PATH"])
     
 
+    #Model list:
+    #deepseek-ai/DeepSeek-V3-0324
+    #moonshotai/Kimi-K2-Instruct-0905
+    #meta-llama/Llama-3.1-8B-Instruct
+    #openai/gpt-oss-20b:groq
+    #CohereLabs/command-a-translate-08-2025:cohere
+    #inclusionAI/Ling-1T:featherless-ai
 
 
 
@@ -33,5 +40,5 @@ if __name__ == '__main__':
     query_handler = QueryHandler()
 
     query_handler.load_database(os.environ["AI_DB_PATH"])
-    query_handler.send_query(query)
+    query_handler.send_query(query, "inclusionAI/Ling-1T:featherless-ai")
     

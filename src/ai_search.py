@@ -8,8 +8,8 @@ class AISearch():
         self.api_handler = ApiHandler()
 
 
-    def search(self, query, db):
-        response = self.api_handler.send_request(query, db, "huggingface")
+    def search(self, query, db, model):
+        response = self.api_handler.send_request(query, db, "huggingface", model)
         msg = response.choices[0].message
         print(msg)
 
