@@ -16,3 +16,16 @@ pip install openai
 #wykonaj skrypt testowy
 python3 utilities/api-testing.py
 ```
+
+
+
+# Wykonywanie programu (21-10-2025):
+```
+Ścieżka do źródła programu jest ustalana w zmiennej środowiskowej 
+`AI_SEARCH_PATH`
+bazowo jako ścieżka wykonania skryptu + "/api_keys.json"
+
+przykład wykonania skryptu:
+python3 src/main.py "Przywitaj się"
+
+```
