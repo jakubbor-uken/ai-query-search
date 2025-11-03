@@ -1,10 +1,11 @@
 import os
 import json
+import logging
 from openai import OpenAI
 
 class ApiHandler:
     def __init__(self):
-        print("ApiHandler initialized")
+        logging.getLogger(__name__).init("ApiHandler initialized")
         self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety danych które najbardziej jej odpowiadają i zwróć wszystkie podane dane w odpowiedniej kolejności priorytetów, jedyny tekst jaki masz zwrócić w swojej odpowiedzi to te dane i ich ID w tym samym formacie w którym zostały podane (json), dane podane są poniżej: ###\n"
 
     def send_request(self, query, db, api_provider, model):
@@ -18,8 +19,8 @@ class ApiHandler:
 
 
     def huggingface_request(self, query, db, model):
-        print("Sending request to HuggingFace API")
-        print("Model:", model)
+        logging.getLogger(__name__).info("Sending request to HuggingFace API")
+        logging.getLogger(__name__).info(f"Model: {model}")
 
         with open(f'{os.environ["AI_API_KEYS"]}', 'r') as f:
             api_keys = json.load(f)
@@ -45,7 +46,7 @@ class ApiHandler:
             ],
         )
 
-        print("Response received")
+        logging.getLogger(__name__).info("Response received")
         return completion
 
         
