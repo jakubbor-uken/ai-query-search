@@ -1,0 +1,9 @@
+Jako pierwszy test wykonaliśmy program na czterech prostych bazach danych o strukturze:
+{
+    id: x,
+    data: y
+}
+
+Wykonaliśmy sortowanie tych baz danych za pomocą kwerendy by przetestować skuteczność modelów. 
+Wszystkie modele zwracały adekwatnie posortowane bazy danych.
+W związku z sukcesem przy sortowaniu, zmieniliśmy kod i struktury testowych baz danych by ustalać priorytety danych za pomocą kwerendy.

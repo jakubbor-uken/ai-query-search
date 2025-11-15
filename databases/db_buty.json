@@ -1,38 +1,129 @@
 [
     {
         "id": 0,
-        "data": "Buty sportowe La Sportiva 550zł na www.aledrogo.pl"
+        "brand": "La Sportiva",
+        "productType": "Buty sportowe",
+        "category": "Sport",
+        "price": 550,
+        "currency": "PLN",
+        "store": "aledrogo.pl",
+        "url": "www.aledrogo.pl",
+        "inStock": true,
+        "promotion": false,
+        "shippingInfo": null
     },
     {
         "id": 1,
-        "data": "Tylko u nas znajdziesz trekkingowe Mammuty 250zł na www.tanio.pl"
+        "brand": "Mammut",
+        "productType": "Buty trekkingowe",
+        "category": "Trekking",
+        "price": 250,
+        "currency": "PLN",
+        "store": "tanio.pl",
+        "url": "www.tanio.pl",
+        "inStock": true,
+        "promotion": true,
+        "shippingInfo": null
     },
     {
         "id": 2,
-        "data": "Czy wiesz jak dobrać najlepsze buty? Zobacz nasz poradnik"
+        "brand": null,
+        "productType": "Poradnik",
+        "category": "Informacyjne",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "inStock": null,
+        "promotion": false,
+        "shippingInfo": null
     },
     {
         "id": 3,
-        "data": ""
+        "brand": null,
+        "productType": null,
+        "category": null,
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "inStock": null,
+        "promotion": false,
+        "shippingInfo": null
     },
     {
         "id": 4,
-        "data": "Salomon Speedcross 5 GTX - 489 zł | Darmowa dostawa | sklep-outdoor.com.pl"
+        "brand": "Salomon",
+        "productType": "Buty trekkingowe",
+        "category": "Outdoor",
+        "model": "Speedcross 5 GTX",
+        "price": 489,
+        "currency": "PLN",
+        "store": "sklep-outdoor.com.pl",
+        "url": "sklep-outdoor.com.pl",
+        "inStock": true,
+        "promotion": false,
+        "shippingInfo": "Darmowa dostawa",
+        "features": ["GTX", "Wodoodporne"]
     },
     {
         "id": 5,
-        "data": "PROMOCJA! Buty trekkingowe Merrell Moab 2 tylko 320zł - oferta ważna do końca miesiąca na www.sportoweszafki.pl"
+        "brand": "Merrell",
+        "productType": "Buty trekkingowe",
+        "category": "Trekking",
+        "model": "Moab 2",
+        "price": 320,
+        "currency": "PLN",
+        "store": "sportoweszafki.pl",
+        "url": "www.sportoweszafki.pl",
+        "inStock": true,
+        "promotion": true,
+        "promotionValidUntil": "Koniec miesiąca",
+        "shippingInfo": null
     },
     {
         "id": 6,
-        "data": "Sandały turystyczne Teva w super cenie 180 PLN - sprawdź na mountain-gear.pl"
+        "brand": "Teva",
+        "productType": "Sandały turystyczne",
+        "category": "Outdoor",
+        "price": 180,
+        "currency": "PLN",
+        "store": "mountain-gear.pl",
+        "url": "mountain-gear.pl",
+        "inStock": true,
+        "promotion": true,
+        "shippingInfo": null
     },
     {
         "id": 7,
-        "data": "Recenzja butów Columbia Redmond - Czy warto kupić? Sprawdź na blogu turystycznym"
+        "brand": "Columbia",
+        "productType": "Recenzja produktu",
+        "category": "Informacyjne",
+        "model": "Redmond",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "inStock": null,
+        "promotion": false,
+        "shippingInfo": null,
+        "contentType": "Blog"
     },
     {
         "id": 8,
-        "data": "Adidas Terrex Free Hiker GTX dostępne w rozmiarach 40-46, cena: 599,99zł www.sportmania24.pl OSTATNIE SZTUKI!"
+        "brand": "Adidas",
+        "productType": "Buty trekkingowe",
+        "category": "Outdoor",
+        "model": "Terrex Free Hiker GTX",
+        "price": 599.99,
+        "currency": "PLN",
+        "store": "sportmania24.pl",
+        "url": "www.sportmania24.pl",
+        "inStock": true,
+        "stockStatus": "Ostatnie sztuki",
+        "promotion": false,
+        "shippingInfo": null,
+        "availableSizes": ["40", "41", "42", "43", "44", "45", "46"],
+        "features": ["GTX", "Wodoodporne"]
     }
 ]

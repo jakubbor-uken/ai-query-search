@@ -1,122 +1,435 @@
 [
     {
         "id": 0,
-        "data": "Zestaw do sushi 120zł na www.kulinarneswiaty.pl"
+        "itemType": "product",
+        "productName": "Zestaw do sushi",
+        "category": "Akcesoria kuchenne",
+        "subcategory": "Zestawy specjalistyczne",
+        "price": 120,
+        "currency": "PLN",
+        "store": "kulinarneswiaty.pl",
+        "url": "www.kulinarneswiaty.pl",
+        "inStock": true,
+        "promotion": false,
+        "shippingInfo": null,
+        "cuisine": "Japońska"
     },
     {
         "id": 1,
-        "data": "Tylko u nas przepis na lasagnię bolognese - sprawdź na www.mojakuchnia.pl"
+        "itemType": "recipe",
+        "recipeName": "Lasagna bolognese",
+        "category": "Przepisy",
+        "subcategory": "Dania główne",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": "www.mojakuchnia.pl",
+        "cuisine": "Włoska",
+        "contentType": "Przepis"
     },
     {
         "id": 2,
-        "data": "Jak przygotować idealne burgery? Zobacz nasz poradnik"
+        "itemType": "guide",
+        "title": "Jak przygotować idealne burgery?",
+        "category": "Poradnik",
+        "subcategory": "Techniki kulinarne",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "contentType": "Poradnik"
     },
     {
         "id": 3,
-        "data": "Przepis na naleśniki ze szpinakiem - sprawdź na doradcasmaku.pl"
+        "itemType": "recipe",
+        "recipeName": "Naleśniki ze szpinakiem",
+        "category": "Przepisy",
+        "subcategory": "Dania główne",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": "doradcasmaku.pl",
+        "cuisine": "Polska",
+        "contentType": "Przepis",
+        "dietType": "Wegetariańskie"
     },
     {
         "id": 4,
-        "data": "Kurs gotowania online - 299 zł | Darmowe materiały | kuchnia-mistrzow.pl"
+        "itemType": "course",
+        "productName": "Kurs gotowania online",
+        "category": "Edukacja",
+        "subcategory": "Kursy kulinarne",
+        "price": 299,
+        "currency": "PLN",
+        "store": "kuchnia-mistrzow.pl",
+        "url": "kuchnia-mistrzow.pl",
+        "inStock": true,
+        "promotion": false,
+        "shippingInfo": "Darmowe materiały",
+        "format": "Online"
     },
     {
         "id": 5,
-        "data": "PROMOCJA! Robot kuchenny Kenwood tylko 899zł - oferta ważna do niedzieli na www.technikakulinarna.pl"
+        "itemType": "product",
+        "brand": "Kenwood",
+        "productName": "Robot kuchenny",
+        "category": "AGD",
+        "subcategory": "Roboty kuchenne",
+        "price": 899,
+        "currency": "PLN",
+        "store": "technikakulinarna.pl",
+        "url": "www.technikakulinarna.pl",
+        "inStock": true,
+        "promotion": true,
+        "promotionValidUntil": "Niedziela",
+        "shippingInfo": null
     },
     {
         "id": 6,
-        "data": "Przepis na carbonarę w autorskiej wersji - sprawdź na gotujznami.com"
+        "itemType": "recipe",
+        "recipeName": "Carbonara w autorskiej wersji",
+        "category": "Przepisy",
+        "subcategory": "Dania główne",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": "gotujznami.com",
+        "cuisine": "Włoska",
+        "contentType": "Przepis",
+        "specialty": "Autorska wersja"
     },
     {
         "id": 7,
-        "data": "Recenzja patelni żeliwnych - Która najlepsza? Test na blogu kulinarnym"
+        "itemType": "review",
+        "title": "Recenzja patelni żeliwnych - Która najlepsza?",
+        "category": "Recenzje",
+        "subcategory": "Naczynia kuchenne",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "contentType": "Test porównawczy"
     },
     {
         "id": 8,
-        "data": "Książka 'Kuchnia Polska' dostępna w limitowanej edycji, cena: 79,99zł www.ksiegarniakulinarna.pl OSTATNIE SZTUKI!"
+        "itemType": "product",
+        "productName": "Książka 'Kuchnia Polska'",
+        "category": "Książki kulinarne",
+        "subcategory": "Literatura kulinarna",
+        "price": 79.99,
+        "currency": "PLN",
+        "store": "ksiegarniakulinarna.pl",
+        "url": "www.ksiegarniakulinarna.pl",
+        "inStock": true,
+        "stockStatus": "Ostatnie sztuki",
+        "promotion": false,
+        "shippingInfo": null,
+        "edition": "Limitowana",
+        "cuisine": "Polska"
     },
     {
         "id": 9,
-        "data": "Zestaw noży kuchennych WÜSTHOF 650zł na www.kuchnieświat.pl"
+        "itemType": "product",
+        "brand": "WÜSTHOF",
+        "productName": "Zestaw noży kuchennych",
+        "category": "Akcesoria kuchenne",
+        "subcategory": "Noże",
+        "price": 650,
+        "currency": "PLN",
+        "store": "kuchnieświat.pl",
+        "url": "www.kuchnieświat.pl",
+        "inStock": true,
+        "promotion": false,
+        "shippingInfo": null
     },
     {
         "id": 10,
-        "data": "Przepis na pączki według babcinej receptury - tylko na tradycyjnakuchnia.pl"
+        "itemType": "recipe",
+        "recipeName": "Pączki według babcinej receptury",
+        "category": "Przepisy",
+        "subcategory": "Ciasta i desery",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": "tradycyjnakuchnia.pl",
+        "cuisine": "Polska",
+        "contentType": "Przepis",
+        "specialty": "Tradycyjna receptura"
     },
     {
         "id": 11,
-        "data": "Jak wybrać dobrą oliwę? Praktyczny poradnik"
+        "itemType": "guide",
+        "title": "Jak wybrać dobrą oliwę?",
+        "category": "Poradnik",
+        "subcategory": "Produkty spożywcze",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "contentType": "Praktyczny poradnik"
     },
     {
         "id": 12,
-        "data": "Kurs pieczenia chleba - 189 zł | online | pieczmyrazem.pl"
+        "itemType": "course",
+        "productName": "Kurs pieczenia chleba",
+        "category": "Edukacja",
+        "subcategory": "Kursy kulinarne",
+        "price": 189,
+        "currency": "PLN",
+        "store": "pieczmyrazem.pl",
+        "url": "pieczmyrazem.pl",
+        "inStock": true,
+        "promotion": false,
+        "shippingInfo": null,
+        "format": "Online",
+        "specialty": "Pieczywo"
     },
     {
         "id": 13,
-        "data": "PROMOCJA! Młynek do kawy Moulinex 149zł - tylko do końca tygodnia na www.sprzetkuchenny.pl"
+        "itemType": "product",
+        "brand": "Moulinex",
+        "productName": "Młynek do kawy",
+        "category": "AGD",
+        "subcategory": "Małe AGD",
+        "price": 149,
+        "currency": "PLN",
+        "store": "sprzetkuchenny.pl",
+        "url": "www.sprzetkuchenny.pl",
+        "inStock": true,
+        "promotion": true,
+        "promotionValidUntil": "Koniec tygodnia",
+        "shippingInfo": null
     },
     {
         "id": 14,
-        "data": "Przepis na ramen domowym sposobem - szczegóły na azjatyckasmak.pl"
+        "itemType": "recipe",
+        "recipeName": "Ramen domowym sposobem",
+        "category": "Przepisy",
+        "subcategory": "Zupy",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": "azjatyckasmak.pl",
+        "cuisine": "Japońska",
+        "contentType": "Przepis"
     },
     {
         "id": 15,
-        "data": "Recenzja blendera Bamix - Czy warto zainwestować? Opinia eksperta"
+        "itemType": "review",
+        "brand": "Bamix",
+        "title": "Recenzja blendera Bamix - Czy warto zainwestować?",
+        "category": "Recenzje",
+        "subcategory": "AGD",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "contentType": "Opinia eksperta"
     },
     {
         "id": 16,
-        "data": "Oryginalne włoskie makarony dostępne w 15 rodzajach, cena od 8,99zł www.smakitalii.pl NOWOŚĆ!"
+        "itemType": "product",
+        "productName": "Oryginalne włoskie makarony",
+        "category": "Produkty spożywcze",
+        "subcategory": "Makarony",
+        "price": 8.99,
+        "priceFrom": true,
+        "currency": "PLN",
+        "store": "smakitalii.pl",
+        "url": "www.smakitalii.pl",
+        "inStock": true,
+        "stockStatus": "Nowość",
+        "promotion": false,
+        "shippingInfo": null,
+        "cuisine": "Włoska",
+        "variety": "15 rodzajów"
     },
     {
         "id": 17,
-        "data": "Deska serów francuskich 200zł na www.seromania.pl"
+        "itemType": "product",
+        "productName": "Deska serów francuskich",
+        "category": "Produkty spożywcze",
+        "subcategory": "Sery",
+        "price": 200,
+        "currency": "PLN",
+        "store": "seromania.pl",
+        "url": "www.seromania.pl",
+        "inStock": true,
+        "promotion": false,
+        "shippingInfo": null,
+        "cuisine": "Francuska"
     },
     {
         "id": 18,
-        "data": "Przepis na bezglutenowe brownie - szczegóły na zdrowakuchnia.pl"
+        "itemType": "recipe",
+        "recipeName": "Bezglutenowe brownie",
+        "category": "Przepisy",
+        "subcategory": "Ciasta i desery",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": "zdrowakuchnia.pl",
+        "contentType": "Przepis",
+        "dietType": "Bezglutenowe"
     },
     {
         "id": 19,
-        "data": "Jak marynować mięso? Zobacz nasze wskazówki"
+        "itemType": "guide",
+        "title": "Jak marynować mięso?",
+        "category": "Poradnik",
+        "subcategory": "Techniki kulinarne",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "contentType": "Wskazówki"
     },
     {
         "id": 20,
-        "data": "Warsztaty kuchni wegańskiej - 350 zł | stacjonarne | kuchniavege.pl"
+        "itemType": "course",
+        "productName": "Warsztaty kuchni wegańskiej",
+        "category": "Edukacja",
+        "subcategory": "Warsztaty kulinarne",
+        "price": 350,
+        "currency": "PLN",
+        "store": "kuchniavege.pl",
+        "url": "kuchniavege.pl",
+        "inStock": true,
+        "promotion": false,
+        "shippingInfo": null,
+        "format": "Stacjonarne",
+        "dietType": "Wegańska"
     },
     {
         "id": 21,
-        "data": "PROMOCJA! Thermomix TM6 5999zł - raty 0% na www.hitechkuchnia.pl"
+        "itemType": "product",
+        "brand": "Thermomix",
+        "productName": "Thermomix TM6",
+        "category": "AGD",
+        "subcategory": "Roboty kuchenne",
+        "model": "TM6",
+        "price": 5999,
+        "currency": "PLN",
+        "store": "hitechkuchnia.pl",
+        "url": "www.hitechkuchnia.pl",
+        "inStock": true,
+        "promotion": true,
+        "shippingInfo": "Raty 0%",
+        "paymentOptions": "Raty 0%"
     },
     {
         "id": 22,
-        "data": "Przepis na żurek staropolski - krok po kroku na wielkanocne.pl"
+        "itemType": "recipe",
+        "recipeName": "Żurek staropolski",
+        "category": "Przepisy",
+        "subcategory": "Zupy",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": "wielkanocne.pl",
+        "cuisine": "Polska",
+        "contentType": "Przepis krok po kroku",
+        "occasion": "Wielkanoc"
     },
     {
         "id": 23,
-        "data": "Recenzja garnków stalowych - Porównanie 5 marek"
+        "itemType": "review",
+        "title": "Recenzja garnków stalowych - Porównanie 5 marek",
+        "category": "Recenzje",
+        "subcategory": "Naczynia kuchenne",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "contentType": "Test porównawczy"
     },
     {
         "id": 24,
-        "data": "Kurs barmański online 199zł www.drinkmaster.pl ZAPISY TRWAJĄ!"
+        "itemType": "course",
+        "productName": "Kurs barmański online",
+        "category": "Edukacja",
+        "subcategory": "Kursy specjalistyczne",
+        "price": 199,
+        "currency": "PLN",
+        "store": "drinkmaster.pl",
+        "url": "www.drinkmaster.pl",
+        "inStock": true,
+        "stockStatus": "Zapisy trwają",
+        "promotion": false,
+        "shippingInfo": null,
+        "format": "Online",
+        "specialty": "Barmanstwo"
     },
     {
         "id": 25,
-        "data": "Tylko u nas zestaw do fondue 180zł na www.rozrywkowakuchnia.pl"
+        "itemType": "product",
+        "productName": "Zestaw do fondue",
+        "category": "Akcesoria kuchenne",
+        "subcategory": "Zestawy specjalistyczne",
+        "price": 180,
+        "currency": "PLN",
+        "store": "rozrywkowakuchnia.pl",
+        "url": "www.rozrywkowakuchnia.pl",
+        "inStock": true,
+        "promotion": false,
+        "shippingInfo": null,
+        "cuisine": "Szwajcarska"
     },
     {
         "id": 26,
-        "data": "Przepis na tiramisu jak w najlepszej włoskiej restauracji"
+        "itemType": "recipe",
+        "recipeName": "Tiramisu jak w najlepszej włoskiej restauracji",
+        "category": "Przepisy",
+        "subcategory": "Ciasta i desery",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "cuisine": "Włoska",
+        "contentType": "Przepis",
+        "specialty": "Restauracyjna jakość"
     },
     {
         "id": 27,
-        "data": "Jak kroić cebulę bez łez? Sprawdź nasze sposoby"
+        "itemType": "guide",
+        "title": "Jak kroić cebulę bez łez?",
+        "category": "Poradnik",
+        "subcategory": "Techniki kulinarne",
+        "price": null,
+        "currency": null,
+        "store": null,
+        "url": null,
+        "contentType": "Wskazówki"
     },
     {
         "id": 28,
-        "data": "Kurs dekorowania tortów - 420 zł | weekendowy | cukierniaart.pl"
+        "itemType": "course",
+        "productName": "Kurs dekorowania tortów",
+        "category": "Edukacja",
+        "subcategory": "Kursy cukiernicze",
+        "price": 420,
+        "currency": "PLN",
+        "store": "cukierniaart.pl",
+        "url": "cukierniaart.pl",
+        "inStock": true,
+        "promotion": false,
+        "shippingInfo": null,
+        "format": "Weekendowy",
+        "specialty": "Dekoracje cukiernicze"
     },
     {
         "id": 29,
-        "data": "PROMOCJA! Ekspres do kawy DeLonghi 1299zł - darmowa dostawa na www.kawomania.pl"
+        "itemType": "product",
+        "brand": "DeLonghi",
+        "productName": "Ekspres do kawy",
+        "category": "AGD",
+        "subcategory": "Ekspresy do kawy",
+        "price": 1299,
+        "currency": "PLN",
+        "store": "kawomania.pl",
+        "url": "www.kawomania.pl",
+        "inStock": true,
+        "promotion": true,
+        "shippingInfo": "Darmowa dostawa"
     }
 ]

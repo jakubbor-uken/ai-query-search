@@ -6,7 +6,7 @@ from openai import OpenAI
 class ApiHandler:
     def __init__(self):
         logging.getLogger(__name__).init("ApiHandler initialized")
-        self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety danych które najbardziej jej odpowiadają i zwróć wszystkie podane dane w odpowiedniej kolejności priorytetów, jedyny tekst jaki masz zwrócić w swojej odpowiedzi to te dane i ich ID w tym samym formacie w którym zostały podane (json), dane podane są poniżej: ###\n"
+        self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć listę pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, dane podane są poniżej: ###\n"
 
     def send_request(self, query, db, api_provider, model):
         response = None
@@ -26,7 +26,7 @@ class ApiHandler:
             api_keys = json.load(f)
 
         #find huggingface key by id
-        hf_key = next((item['key'] for item in api_keys if item['id'] == 'huggingface'), None)
+        hf_key = next((item['key'] for item in api_keys if item['id'] == 'huggingface2'), None)
 
         if hf_key is None:
             raise ValueError("Huggingface API key not found or is null in api keys .json")

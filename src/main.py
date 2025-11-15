@@ -33,10 +33,10 @@ if __name__ == '__main__':
     ]
 
     dbs_and_queries = [
-        {"query": "Znajdź najlepsze buty", "db": os.getcwd() + "/databases/db_buty.json"},
-        {"query": "Znajdź najlepszą lodówkę", "db": os.getcwd() + "/databases/db_kuchnia.json"},
-        {"query": "Znajdź najtańszy laptop", "db": os.getcwd() + "/databases/db_laptopy.json"},
-        {"query": "Znajdź najciekawsze wakacje", "db": os.getcwd() + "/databases/db_wakacje.json"}
+        {"query": "Znajdź buty o najmniejszej cenie", "db": os.getcwd() + "/databases/db_buty.json"},
+        {"query": "Znajdź narzędzia kuchenne", "db": os.getcwd() + "/databases/db_kuchnia.json"},
+        {"query": "Znajdź najbardziej wydajny laptop", "db": os.getcwd() + "/databases/db_laptopy.json"},
+        {"query": "Znajdź wakacje które są najbliżej Polski", "db": os.getcwd() + "/databases/db_wakacje.json"}
     ]
 
     analyzer = AI_Analysis()
@@ -49,11 +49,11 @@ if __name__ == '__main__':
 
 
     #Load user query (testing)
-    if len(sys.argv) < 2:
-        raise ValueError("No query specified")
+    # if len(sys.argv) < 2:
+    #     raise ValueError("No query specified")
 
-    query = sys.argv[1]
-    logging.getLogger(__name__).info(f"Query: {query}")
+    # query = sys.argv[1]
+    # logging.getLogger(__name__).info(f"Query: {query}")
 
 
     # query_handler = QueryHandler()

@@ -1,5 +1,9 @@
 [
     {
+        "id": "huggingface2",
+        "key": "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"
+    },
+    {
         "id": "huggingface",
         "key": "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"
     }

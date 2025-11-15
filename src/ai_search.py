@@ -11,7 +11,7 @@ class AISearch():
 
     def search(self, query, db, model):
         response = self.api_handler.send_request(query, db, "huggingface", model)
-        msg = response.choices[0].message
+        msg = response.choices[0].message.content
         logging.getLogger(__name__).info(msg)
         return msg
 
