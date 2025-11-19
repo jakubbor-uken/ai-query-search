@@ -6,7 +6,7 @@ from openai import OpenAI
 class ApiHandler:
     def __init__(self):
         logging.getLogger(__name__).init("ApiHandler initialized")
-        self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć listę pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, dane podane są poniżej: ###\n"
+        self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć tylko jeden obiekt wszystkich pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, twoja wiadomość musi składać się tylko ze znaków które można zparsować na JSON, utrzymaj konsekwentnie następujący format: {\"propertyName\": priorityValue, \"propertyName\": priorityValue} - odpowiedź musi zawrzeć się tylko w jednym obiekcie, dane podane są poniżej: ###\n"
 
     def send_request(self, query, db, api_provider, model):
         response = None

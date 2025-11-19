@@ -26,7 +26,7 @@ if __name__ == '__main__':
     model_list = [
         "deepseek-ai/DeepSeek-V3-0324",
         "moonshotai/Kimi-K2-Instruct-0905",
-        "meta-llama/Llama-3.1-8B-Instruct",
+        # "meta-llama/Llama-3.1-8B-Instruct", //Removed because of inconsistent results
         "openai/gpt-oss-20b:groq",
         "CohereLabs/command-a-translate-08-2025:cohere",
         "inclusionAI/Ling-1T:featherless-ai"
@@ -41,6 +41,7 @@ if __name__ == '__main__':
 
     analyzer = AI_Analysis()
     analyzer.run_analysis(model_list, dbs_and_queries)
+
 
 
 
