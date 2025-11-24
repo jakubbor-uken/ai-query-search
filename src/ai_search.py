@@ -1,6 +1,8 @@
 import logging
 import json
 import pandas
+from timeit import default_timer as timer
+
 from api_handler import ApiHandler
 
 
@@ -55,7 +57,14 @@ class AISearch():
 
 
     def search(self, query, db, model):
+        start = timer()
         msg = self.get_response(query, db, model)
+        end = timer()
+        elapsed_time = round(end - start, 3)  # rounds to 3 decimal places (0.001 precision)
+
+
+        
+        
 
         try:
             msg = self.parse_msg(msg)
@@ -68,7 +77,7 @@ class AISearch():
             msg = self.parse_msg(msg)
             msg = self.verify_values(msg)
 
-        return msg
+        return {"msg": msg, "elapsed_time": elapsed_time}
 
 
 

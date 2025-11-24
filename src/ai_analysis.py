@@ -19,7 +19,7 @@ class AI_Analysis:
                 query = dbs_and_queries[j]["query"]
 
                 output = query_handler.send_query(query, model)
-                output_list.append({"output": output, "model": model, "query": query})
+                output_list.append({"output": output['msg'], "model": model, "query": query, "elapsed_time": output['elapsed_time']})
                 logging.getLogger(__name__).info(f"Added output for model: {model}, query: {query} to output_list")
 
         output_path = os.path.join(os.getcwd(), "output.log")

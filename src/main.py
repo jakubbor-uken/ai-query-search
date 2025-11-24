@@ -24,19 +24,26 @@ if __name__ == '__main__':
 
     #Test configuration
     model_list = [
+        # "meta-llama/Llama-3.1-8B-Instruct", # Removed because of inconsistent results
         "deepseek-ai/DeepSeek-V3-0324",
         "moonshotai/Kimi-K2-Instruct-0905",
-        # "meta-llama/Llama-3.1-8B-Instruct", //Removed because of inconsistent results
         "openai/gpt-oss-20b:groq",
-        "CohereLabs/command-a-translate-08-2025:cohere",
-        "inclusionAI/Ling-1T:featherless-ai"
+        # "CohereLabs/command-a-translate-08-2025:cohere", # Not used in target database tests for dbs bigger than 50 records
+        # "inclusionAI/Ling-1T:featherless-ai" # Not used in target database tests for dbs bigger than 200 records
     ]
 
     dbs_and_queries = [
-        {"query": "Znajdź buty o najmniejszej cenie", "db": os.getcwd() + "/databases/db_buty.json"},
-        {"query": "Znajdź narzędzia kuchenne", "db": os.getcwd() + "/databases/db_kuchnia.json"},
-        {"query": "Znajdź najbardziej wydajny laptop", "db": os.getcwd() + "/databases/db_laptopy.json"},
-        {"query": "Znajdź wakacje które są najbliżej Polski", "db": os.getcwd() + "/databases/db_wakacje.json"}
+        # {"query": "Znajdź buty o najmniejszej cenie", "db": os.getcwd() + "/databases/db_buty.json"},
+        # {"query": "Znajdź narzędzia kuchenne", "db": os.getcwd() + "/databases/db_kuchnia.json"},
+        # {"query": "Znajdź najbardziej wydajny laptop", "db": os.getcwd() + "/databases/db_laptopy.json"},
+        # {"query": "Znajdź wakacje które są najbliżej Polski", "db": os.getcwd() + "/databases/db_wakacje.json"}
+
+        #Target database tests
+        # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb50.json"},
+        # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb100.json"},
+        # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb200.json"},
+        # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb500.json"},
+        {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb.json"},
     ]
 
     analyzer = AI_Analysis()

@@ -1,3 +1,10 @@
+Raport 3 - dostosowanie formatu odpowiedzi LLMów i filtracja wadliwych modelów AI
+
+//TODO: przejrzeć historię zmian w promptach i dopisać argumentacje dlaczego zostały tak zmienione i podsumowania czy dawały lepsze rezultaty do każdego etapu outputów
+//TODO: i jakieś wnioski że się udało format uzyskać jednoznaczny nawet przy wielokrotnym wykonaniu testów (nie określamy ile konkretnie testów wykonaliśmy w trakcie prac nad standaryzacją formatowania)
+
+
+
 query before:
 #self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć listę pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, dane podane są poniżej: ###\n"
 
@@ -9,6 +16,10 @@ ze względu na problemy z formatowaniem
 zedytowaliśmy projekt tak by rezultat zawsze był konwertowany do json
 wzięliśmy pod uwagę kilka wyników z różnych modeli i ustaliliśmy jakie znaki trzeba usunąć
 by uzyskać konkretny rezultat na którym można realnie pracować
+
+konkretną standaryzacje formatowania odpowiedzi modelów można znaleźć w kodzie źródłowym w pliku:
+src/ai_search.py
+
 
 
 po zmianach w formatowaniu i kwerendzie:
@@ -319,6 +330,9 @@ popełnił błąd, zdecydowaliśmy się na następujące metody wykrycia i napra
 - odrzucać wyniki w razie błędu i powtórzyć zapytanie do api dwukrotnie, jeżeli błąd wystąpił
 - zmienić kwerendę tak, żeby priorytety były w zakresie 0-100
 
+Kod i kwerenda zostały zaktualizowane, rozwiązanie zawarte w pliku:
+src/ai_search.py
+
 Nowa kwerenda:
 self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól (object properties) danych które najbardziej jej odpowiadają i zwróć tylko jeden obiekt wszystkich pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, twoja wiadomość musi składać się tylko ze znaków które można zparsować na JSON, utrzymaj konsekwentnie następujący format: {\"propertyName\": priorityValue, \"propertyName\": priorityValue} - odpowiedź musi zawrzeć się tylko w jednym obiekcie, wartości priorytetów mogą być tylko z zakresu od 0 do 100 włącznie, dane podane są poniżej: ###\n"
 
@@ -343,3 +357,7 @@ Wyniki:
 {'output': {'category': 100, 'subcategory': 100, 'itemType': 100, 'productName': 80, 'brand': 70, 'price': 30, 'inStock': 20, 'promotion': 10}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 100, 'itemType': 100, 'category': 100, 'subcategory': 95, 'price': 85, 'inStock': 80, 'brand': 70, 'productName': 70}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'destination': 100, 'country': 100, 'category': 100, 'subcategory': 100, 'inStock': 100, 'price': 80, 'currency': 100}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
+
+
+Wnioski:
+...
