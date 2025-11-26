@@ -43,7 +43,20 @@ if __name__ == '__main__':
         # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb100.json"},
         # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb200.json"},
         # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb500.json"},
-        {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb.json"},
+        # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb.json"},
+
+        # {"query": "Znajdź dzieła które są łatwopalne", "db": os.getcwd() + "/databases/sampledb50.json"},
+        # {"query": "Znajdź dzieła które są łatwopalne", "db": os.getcwd() + "/databases/sampledb100.json"},
+        # {"query": "Znajdź dzieła które są łatwopalne", "db": os.getcwd() + "/databases/sampledb200.json"},
+        # {"query": "Znajdź dzieła które są łatwopalne", "db": os.getcwd() + "/databases/sampledb500.json"},
+        # {"query": "Znajdź dzieła które są łatwopalne", "db": os.getcwd() + "/databases/sampledb.json"},
+
+        # {"query": "Znajdź dzieła przedstawiające ludzi", "db": os.getcwd() + "/databases/sampledb50.json"},
+        # {"query": "Znajdź dzieła przedstawiające ludzi", "db": os.getcwd() + "/databases/sampledb100.json"},
+        # {"query": "Znajdź dzieła przedstawiające ludzi", "db": os.getcwd() + "/databases/sampledb200.json"},
+        # {"query": "Znajdź dzieła przedstawiające ludzi", "db": os.getcwd() + "/databases/sampledb500.json"},
+        {"query": "Znajdź dzieła przedstawiające ludzi", "db": os.getcwd() + "/databases/sampledb.json"},
+
     ]
 
     analyzer = AI_Analysis()
