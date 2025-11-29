@@ -1,0 +1,75 @@
+=== Liczenie tokenów ===
+
+[INFO] Kaggle_Netflix: Przetwarzanie 8807 wierszy w 1 chunkach...
+Token indices sequence length is longer than the specified maximum sequence length for this model (1290773 > 1024). Running this sequence through the model will result in indexing errors
+[OK] Kaggle_Netflix: 1290773 tokenów
+[INFO] Wine_Quality: Przetwarzanie 6497 wierszy w 1 chunkach...
+[OK] Wine_Quality: 600104 tokenów
+[INFO] Znaleziono 6 plików CSV w wdi_data
+
+[INFO] Ładowanie WDIseries-time.csv...
+  Rozmiar pliku: 0.01 MB
+  Załadowano 142 wierszy, 3 kolumn
+[INFO] WorldBank_WDI_WDIseries-time: Przetwarzanie 142 wierszy w 1 chunkach...
+[OK] WorldBank_WDI_WDIseries-time: 5764 tokenów
+
+[INFO] Ładowanie WDICSV.csv...
+  Rozmiar pliku: 188.90 MB
+  [WARN] Duży plik! Ograniczam do 100000 wierszy
+  Załadowano 100000 wierszy, 69 kolumn
+[INFO] WorldBank_WDI_WDICSV: Przetwarzanie 100000 wierszy w 20 chunkach...
+  ... przetworzono 50000/100000 wierszy
+  ... przetworzono 100000/100000 wierszy
+[OK] WorldBank_WDI_WDICSV: 42632914 tokenów
+
+[INFO] Ładowanie WDIfootnote.csv...
+  Rozmiar pliku: 72.92 MB
+  [WARN] Duży plik! Ograniczam do 100000 wierszy
+  Załadowano 100000 wierszy, 4 kolumn
+[INFO] WorldBank_WDI_WDIfootnote: Przetwarzanie 100000 wierszy w 20 chunkach...
+  ... przetworzono 50000/100000 wierszy
+  ... przetworzono 100000/100000 wierszy
+[OK] WorldBank_WDI_WDIfootnote: 4579947 tokenów
+
+[INFO] Ładowanie WDIcountry-series.csv...
+  Rozmiar pliku: 1.30 MB
+  Załadowano 7939 wierszy, 3 kolumn
+[INFO] WorldBank_WDI_WDIcountry-series: Przetwarzanie 7939 wierszy w 2 chunkach...
+[OK] WorldBank_WDI_WDIcountry-series: 455871 tokenów
+
+[INFO] Ładowanie WDISeries.csv...
+  Rozmiar pliku: 6.13 MB
+  Załadowano 1516 wierszy, 20 kolumn
+[INFO] WorldBank_WDI_WDISeries: Przetwarzanie 1516 wierszy w 1 chunkach...
+[OK] WorldBank_WDI_WDISeries: 1409096 tokenów
+
+[INFO] Ładowanie WDICountry.csv...
+  Rozmiar pliku: 0.15 MB
+  Załadowano 265 wierszy, 31 kolumn
+[INFO] WorldBank_WDI_WDICountry: Przetwarzanie 265 wierszy w 1 chunkach...
+[OK] WorldBank_WDI_WDICountry: 78213 tokenów
+
+[INFO] Łącznie tokenów z WDI: 49161805
+
+[INFO] Próba załadowania datasetu Titanic...
+[WARN] Seaborn nie zadziałał: No module named 'seaborn'
+[INFO] Ładowanie Titanica z GitHub...
+[INFO] Titanic_GitHub: Przetwarzanie 891 wierszy w 1 chunkach...
+[OK] Titanic_GitHub: 68344 tokenów
+
+==================================================
+TOKENIZACJA ZAKOŃCZONA – zapisano token_report.json
+==================================================
+
+PODSUMOWANIE:
+  Kaggle_Netflix: 1,290,773 tokenów (8,807 wierszy)
+  Wine_Quality: 600,104 tokenów (6,497 wierszy)
+  WorldBank_WDI_WDIseries-time: 5,764 tokenów (142 wierszy)
+  WorldBank_WDI_WDICSV: 42,632,914 tokenów (100,000 wierszy)
+  WorldBank_WDI_WDIfootnote: 4,579,947 tokenów (100,000 wierszy)
+  WorldBank_WDI_WDIcountry-series: 455,871 tokenów (7,939 wierszy)
+  WorldBank_WDI_WDISeries: 1,409,096 tokenów (1,516 wierszy)
+  WorldBank_WDI_WDICountry: 78,213 tokenów (265 wierszy)
+  Titanic_GitHub: 68,344 tokenów (891 wierszy)
+
+ŁĄCZNIE: 51,121,026 tokenów

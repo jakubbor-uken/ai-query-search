@@ -6,3 +6,7 @@ lib64/**
 pyvenv.cfg
 app.log
 **/__pycache__
+
+# Databases required for calculating the amount of tokens for example databases:
+utilities/tokenizer/*.csv
+utilities/tokenizer/wdi_data/

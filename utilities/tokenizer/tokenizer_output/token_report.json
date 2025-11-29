@@ -1,0 +1,47 @@
+{
+    "Kaggle_Netflix": {
+        "rows": 8807,
+        "columns": 12,
+        "total_tokens": 1290773
+    },
+    "Wine_Quality": {
+        "rows": 6497,
+        "columns": 12,
+        "total_tokens": 600104
+    },
+    "WorldBank_WDI_WDIseries-time": {
+        "rows": 142,
+        "columns": 3,
+        "total_tokens": 5764
+    },
+    "WorldBank_WDI_WDICSV": {
+        "rows": 100000,
+        "columns": 69,
+        "total_tokens": 42632914
+    },
+    "WorldBank_WDI_WDIfootnote": {
+        "rows": 100000,
+        "columns": 4,
+        "total_tokens": 4579947
+    },
+    "WorldBank_WDI_WDIcountry-series": {
+        "rows": 7939,
+        "columns": 3,
+        "total_tokens": 455871
+    },
+    "WorldBank_WDI_WDISeries": {
+        "rows": 1516,
+        "columns": 20,
+        "total_tokens": 1409096
+    },
+    "WorldBank_WDI_WDICountry": {
+        "rows": 265,
+        "columns": 31,
+        "total_tokens": 78213
+    },
+    "Titanic_GitHub": {
+        "rows": 891,
+        "columns": 12,
+        "total_tokens": 68344
+    }
+}

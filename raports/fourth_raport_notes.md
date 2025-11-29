@@ -789,6 +789,14 @@ inclusionAI/Ling-1T:featherless-ai - POPRAWNE
 Wszystkie modele poprawnie odpowiedziały na problem:  
 - czy pole `material` uzyskało najwyższy priorytet  
   
+
+
+> [!IMPORTANT]  
+> !!!
+> Pominięto testy na modelu "inclusionAI/Ling-1T:featherless-ai" na bazach danych powyżej 200 obiektów
+> ze względu na problemy z limitem kontekstu wspomiane na początku raportu.
+> !!!
+
   
 ### Pierwszy test na bazie danych o ilości obiektów 500:
 ```python
@@ -1214,6 +1222,14 @@ Model `openai/gpt-oss-20b:groq` popełnił błąd przy drugim wykonaniu, nadają
   
 
 
+
+> [!IMPORTANT]  
+> !!!
+> Pominięto testy na modelu "inclusionAI/Ling-1T:featherless-ai" na bazach danych powyżej 200 obiektów
+> ze względu na problemy z limitem kontekstu wspomiane na początku raportu.
+> !!!
+
+
 ### Pierwszy test na bazie danych o ilości obiektów 500:
 ```python
 {'output': {'name': 90, 'type': 80, 'technique': 70, 'material': 60, 'size': 50, 'place': 40, 'creator': 30, 'createdate': 20, 'copyright': 10, 'inventorynumber': 0}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź dzieła przedstawiające ludzi', 'elapsed_time': 9.458}
@@ -1609,88 +1625,106 @@ Ilość tokenów: 129206
 ## Przykłady kosztów dla innych typów baz danych:
 
 # //TODO: tabelki do podsumowania tej części raportu bo nikt sie w tym nie rozczyta
-# //TODO: wejść na te linki i sprawdzić czy obecne dane zgadzają się z tym co jest na tych stronach
+
+
+Przybliżoną ilośc tokenów dla poszczególnych baz danych obliczyliśmy z pomocą skryptu  
+`utilities/db_tokenizer.py`  
+  
+używając otwartego i wolnego tokenizera GPT-2 (najczęściej stosowanego do kosztorysów)  
 
 ## 1. Kaggle - Netflix Movies and TV Shows
-Link: https://www.kaggle.com/datasets/shivamb/netflix-shows
-Rozmiar: ~8700 wpisów, ~12 kolumn
-Szacowana ilość tokenów: ~950,000 tokenów (pełna baza)
-
-Koszta na zapytanie (pełna baza):
-- DeepSeek-V3-0324: $0.23
-- Kimi-K2-Instruct-0905: $0.95
-- gpt-oss-20b: $0.11
-- inclusionAI/Ling-1T: $0.53
-- meta-llama/Llama-3.1-8B-Instruct: $0.019
+**Link:** https://www.kaggle.com/datasets/shivamb/netflix-shows  
+**Rozmiar:** ~8700 wpisów, ~12 kolumn  
+**Rzeczywista ilość tokenów:** 1,290,773 tokenów  
+**Koszta na zapytanie (pełna baza):**
+- DeepSeek-V3-0324 ($0.24/1M): **$0.31**
+- Kimi-K2-Instruct-0905 ($1.00/1M): **$1.29**
+- gpt-oss-20b ($0.12/1M): **$0.15**
+- inclusionAI/Ling-1T ($0.56/1M): **$0.72**
+- meta-llama/Llama-3.1-8B-Instruct ($0.02/1M): **$0.026**
 
 ## 2. UCI Machine Learning Repository - Wine Quality Dataset
-Link: https://archive.ics.uci.edu/dataset/186/wine+quality
-Rozmiar: ~6500 wpisów, 12 kolumn (wartości numeryczne)
-Szacowana ilość tokenów: ~85,000 tokenów
+**Link:** https://archive.ics.uci.edu/dataset/186/wine+quality  
+**Rozmiar:** ~6500 wpisów, 12 kolumn (wartości numeryczne)  
+**Rzeczywista ilość tokenów:** 600,104 tokenów  
+**Koszta na zapytanie:**
+- DeepSeek-V3-0324: **$0.14**
+- Kimi-K2-Instruct-0905: **$0.60**
+- gpt-oss-20b: **$0.072**
+- inclusionAI/Ling-1T: **$0.34**
+- meta-llama/Llama-3.1-8B-Instruct: **$0.012**
 
-Koszta na zapytanie:
-- DeepSeek-V3-0324: $0.020
-- Kimi-K2-Instruct-0905: $0.085
-- gpt-oss-20b: $0.010
-- inclusionAI/Ling-1T: $0.048
-- meta-llama/Llama-3.1-8B-Instruct: $0.0017
+## 3. World Bank Open Data - World Development Indicators
+**Link:** https://datacatalog.worldbank.org/search/dataset/0037712  
+**Rozmiar:** ~1500 wskaźników, ~200 krajów, dane roczne  
+**Rzeczywista ilość tokenów:** 49,161,805 tokenów (100k wierszy - ograniczone)  
+**Koszta na zapytanie:**
+- DeepSeek-V3-0324: **$11.80** ⚠️
+- Kimi-K2-Instruct-0905: **$49.16** ⚠️⚠️
+- gpt-oss-20b: **$5.90** ⚠️
+- inclusionAI/Ling-1T: **$27.53** ⚠️⚠️
+- meta-llama/Llama-3.1-8B-Instruct: **$0.98**
 
-## 3. Data.gov - US Baby Names
-Link: https://catalog.data.gov/dataset/baby-names-from-social-security-card-applications-national-data
-Rozmiar: ~2 miliony wpisów, 5 kolumn
-Szacowana ilość tokenów: ~18,000,000 tokenów
-Uwaga: Wymaga chunking/partycjonowania
+**UWAGA:** WDI wymaga obowiązkowego chunkingu! Przekracza limity context większości modeli.
 
-Koszt dla fragmentu 100k tokenów:
-- DeepSeek-V3-0324: $0.024
-- Kimi-K2-Instruct-0905: $0.10
-- gpt-oss-20b: $0.012
-- inclusionAI/Ling-1T: $0.056
-- meta-llama/Llama-3.1-8B-Instruct: $0.002
+## 4. OpenML - Titanic Dataset
+**Link:** https://www.openml.org/search?type=data&status=active&id=40945  
+**Rozmiar:** 891 wpisów, 12 kolumn  
+**Rzeczywista ilość tokenów:** 68,344 tokenów  
+**Koszta na zapytanie:**
+- DeepSeek-V3-0324: **$0.016**
+- Kimi-K2-Instruct-0905: **$0.068**
+- gpt-oss-20b: **$0.008**
+- inclusionAI/Ling-1T: **$0.038**
+- meta-llama/Llama-3.1-8B-Instruct: **$0.0014**
 
-## 4. World Bank Open Data - World Development Indicators
-Link: https://datacatalog.worldbank.org/search/dataset/0037712
-Rozmiar: ~1500 wskaźników, ~200 krajów, dane roczne
-Szacowana ilość tokenów: ~450,000 tokenów (ostatnie 10 lat)
+---
 
-Koszta na zapytanie:
-- DeepSeek-V3-0324: $0.11
-- Kimi-K2-Instruct-0905: $0.45
-- gpt-oss-20b: $0.054
-- inclusionAI/Ling-1T: $0.25
-- meta-llama/Llama-3.1-8B-Instruct: $0.009
+## Podsumowanie całkowite:
 
-## 5. GitHub - Awesome Public Datasets - NYC Taxi Data
-Link: https://github.com/awesomedata/awesome-public-datasets
-Rozmiar: ~1.5 miliona przejazdów/miesiąc, ~20 kolumn
-Szacowana ilość tokenów: ~2,500,000 tokenów (miesiąc danych)
-Uwaga: Wymaga chunking
+**Łączna liczba tokenów:** 51,120,026 tokenów (~51M)
 
-Koszt dla fragmentu 128k tokenów (limit większości modeli):
-- DeepSeek-V3-0324: $0.031
-- Kimi-K2-Instruct-0905: $0.128
-- gpt-oss-20b: $0.015
-- inclusionAI/Ling-1T: $0.072
-- meta-llama/Llama-3.1-8B-Instruct: $0.0026
+**Koszt przetworzenia wszystkich 4 baz jednorazowo:**
+- DeepSeek-V3-0324: **$12.27**
+- Kimi-K2-Instruct-0905: **$51.12**
+- gpt-oss-20b: **$6.13**
+- inclusionAI/Ling-1T: **$28.63**
+- meta-llama/Llama-3.1-8B-Instruct: **$1.02**
 
-## 6. OpenML - Titanic Dataset
-Link: https://www.openml.org/search?type=data&status=active&id=40945
-Rozmiar: 891 wpisów, 12 kolumn
-Szacowana ilość tokenów: ~11,500 tokenów
+---
 
-Koszta na zapytanie:
-- DeepSeek-V3-0324: $0.0028
-- Kimi-K2-Instruct-0905: $0.0115
-- gpt-oss-20b: $0.0014
-- inclusionAI/Ling-1T: $0.0064
-- meta-llama/Llama-3.1-8B-Instruct: $0.00023
+## Wnioski i Rekomendacje:
 
-Wnioski:
-- Dla małych baz (< 1000 wpisów): Koszta minimalne ($0.001 - $0.13 per query)
-- Dla średnich baz (1000-10000 wpisów): Koszta umiarkowane ($0.02 - $1.00 per query)
-- Dla dużych baz (> 10000 wpisów): Wymagany chunking, koszta mogą być znaczące
-- Najtańszy: Llama-3.1-8B ($0.02/1M tokens), ale nie można na nim polegać
-- Najbardziej ekonomiczny kompromis: DeepSeek-V3 ($0.24/1M tokens) z największym context (160k)
+### 1. Skalowanie kosztów według wielkości bazy:
+- **Małe bazy (< 100k tokenów):** Titanic - koszty minimalne ($0.001 - $0.07)
+- **Średnie bazy (100k-1M tokenów):** Wine, Netflix - koszty umiarkowane ($0.01 - $1.30)
+- **Duże bazy (> 1M tokenów):** WDI - **WYMAGA CHUNKINGU** ($1 - $50)
+
+### 2. Limity context window:
+- **DeepSeek-V3:** 160k tokens - może obsłużyć Titanic, Wine, Netflix w całości
+- **GPT-4:** ~128k tokens - wymaga chunkingu dla Netflix
+- **Większość modeli:** 4k-32k tokens - chunking obowiązkowy dla wszystkich baz oprócz Titanic
+
+### 3. Strategia optymalizacji kosztów:
+
+#### Dla małych zapytań (analiza < 10k tokenów):
+- **Najlepszy wybór:** DeepSeek-V3 lub GPT-oss-20b
+- Szybkie, tanie, wysoka jakość
+
+#### Dla średnich zapytań (10k-500k tokenów):
+- **Najtańszy:** meta-llama/Llama-3.1-8B (~$0.01)
+- **Najlepszy stosunek cena/jakość:** DeepSeek-V3 (~$0.12)
+- **Premium jakość:** GPT-4-Turbo (~$2.50)
+
+#### Dla dużych baz (> 1M tokenów):
+**OBOWIĄZKOWE TECHNIKI:**
+1. **Chunking:** Dziel bazę na mniejsze części (10k-50k tokenów/chunk)
+2. **Filtering:** Użyj SQL/Pandas do przedfiltrowania danych przed LLM
+3. **Embeddings:** Użyj wyszukiwania wektorowego (RAG) zamiast pełnej bazy
+4. **Caching:** Cache częstych zapytań
+
+
+
 
 
 
@@ -1702,30 +1736,364 @@ Wnioski:
 
 # Rozdział 4: WNIOSKI
 
-
-Wnioski:  
-Na modelach nie można było polegać w taki sposób że ustalenie progu do jakiego cechy mają znaczenie jest problematyczne i jedyne rozwiązanie jakie wymyśliliśmy, to zawrzeć w promptcie kolejny warunek że priorytety mają przestrzegać danego progu (np. większy bądź równy 50).  
-Jednakże taki warunek nie jest optymalny dla każdej kwerendy - przy niektórych kwerendach oczekujemy naturalnego rozstawienia priorytetów, próg nie jest stały, a z takim promptem modele mogły by rozkładać priorytety "na siłę" poniżej lub powyżej danego progu, a priorytet danej cechy nie odpowiadał by jej realnemu znaczeniu w kontekście kwerendy.
-# //TODO: jakieś źródło o overfittingu/underfittingu LLMów przy złej kwerendzie (opcjonalne)  
-  
-Jest sens testować na bazie danych o małej jak i dużej ilości cech, zarówno relatywnej jak i nosql, bo zapewnia to użytkownikowi szybsze przefiltrowanie cech które mają największe znaczenie.  
-Jednak nie można polegać na modelach AI by automatycznie określały które konkretnie cechy powinny zostać do filtracji - użytkownik sam musi określić jaki próg lub zakres priorytetów akceptuje  
-Sens takiego rozwiązania jest wtedy gdy użytkownik potrzebuje listy priorytetów do ułatwienia dalszej filtracji, ale nie zastąpi finalnie ręcznej (lub programistycznej) filtracji ze względu na brak dokładności i subiektywność modelów.  
-Na pewno jest to rozwiązanie które może wspierać filtracje danych, szybko pokazuje które cechy są najważniejsze i nadaje niskie priorytety tym które nie są ważne, ale nie zastąpi ręcznej filtracji.  
-Sytuacja w której można by zastąpić ręczną filtrację całkowicie zachodzi tylko z pomocą programistów którzy już wykonali dane kwerendy i wiedzą jakiej odpowiedzi sie spodziewać - twierdzimy na podstawie testów z poprzednich raportów, że modele są w większości konsekwentne w swoich odpowiedziach co do priorytetów (pomijając modele które zostały usunięte z dalszych testów ze względu na brak konsekwentności). Wtedy można polegać na ustalaniu progów dla każdej konkretnej kwerendy i bazy danych.  
-  
-
-# //TODO: Wnioski dlaczego taki system nadaje się naszym zdaniem tylko do wspomagania procesu filtracji, ale nie będzie w stanie jej zastąpić bo nie zapewnia zawsze idealnych wyników, a subiektywność modeli odbiega od realnego rozłożenia priorytetów (szczególnie widoczne na Teście 3 - kwerenda trywialna). Zastanawiające jest to, że przy trudniejszych kwerendach modele radziły sobie lepiej.
-
-# //TODO: Wnioski o tym że modyfikacja kwerendy dodatkowej być może mogła by zapewnić lepsze rezultaty i wymagane są dodatkowe badania w tym kierunku (optymalizacja rozwiązań)
-
-# //TODO: Wnioski o limicie kontekstu, rozwiązanie - wysyłanie kilku zapytań z podzieloną bazą danych w zakresie kontekstu modelu
-# //TODO: proponowane kolejne rozwiązanie (optymalizacja) na masywne ilości tokenów - wysłanie tylko unikalnych cech i unikalnych wartości odpowiadających tym cechom w bazie danych. problemy z tym rozwiązaniem - nie jest adekwatne dla każdej bazy danych, może powodować problemy z ustaleniem odpowiednich priorytetów (wymaga dalszych badań). Bazy danych które nie mają wielu unikatowych wartości mogą z tego skorzystać i wyjść bardzo efektywnie pod względem kosztów, ale bazy które mają wiele różnych wartości - nie będzie to ogromna optymalizacja.
-
-# //TODO: kolejne proponowane rozwiązanie - fine-tuning jakiegoś modelu do naszej konkretnej bazy danych, potencjalnie rozwiązanie tańsze i celniejsze, ale wymaga dodatkowych badań czy ma sens, dodatkowo jest względnie trudniejsze do wykonania, zazwyczaj wymaga dłuższego czasu trenowania i testów, uważamy że takie rozwiązanie zazwyczaj nie będzie lepsze od standardowego filtrowania bazy danych "ręcznie"
-
 # //TOOD: Wnioski o ilości czasu, czy to długie wykonanie, czy warto z tego korzystać, przewidywania jak się to będzie prezentowało na większych bazach danych (powyżej 200 000 tokenów), może jakiś wykres do przewidywania tego czasu wykonania
-# //TODO: Wady i zalety naszego rozwiązania
+
+
+
+## 4.1. Problem z ustalaniem progów priorytetów
+
+Na podstawie przeprowadzonych testów stwierdzono, że **ustalenie uniwersalnego progu odcięcia priorytetów jest problematyczne**. Jedynym rozwiązaniem okazało się dodanie do promptu warunku, że priorytety mają przekraczać określony próg (np. ≥50).
+
+Jednak takie podejście **nie jest optymalne dla każdej kwerendy**:
+- Przy niektórych zapytaniach oczekujemy naturalnego rozkładu priorytetów
+- Próg nie jest stały i zależy od charakteru kwerendy
+- Z naszego doświadczenia przy fine-tuningu LLMów, twierdzimy że sztywny próg zawarty w kwerendzie dodatkowej, choć najpewniej poprawi wyniki do użycia w realnej aplikacji, może prowadzić do nadmiernego dopasowania (overfitting) lub niedopasowania (underfitting), gdzie modele "na siłę" rozkładają priorytety powyżej/poniżej progu
+- Priorytet danej cechy może wtedy nie odpowiadać jej realnemu znaczeniu w kontekście zapytania
+
+[źródło omawiające Bias-Variance Tradeoff: Pattern Recognition and Machine Learning (Christopher M. Bishop)].
+
+## 4.2. Zastosowanie w praktyce
+
+### 4.2.1. Wartość rozwiązania
+Testowanie na bazach danych o małej i dużej liczbie cech (zarówno relacyjnych jak i NoSQL) ma sens, ponieważ:
+- Zapewnia użytkownikowi szybkie przefiltrowanie cech o największym znaczeniu
+- Modele skutecznie identyfikują cechy kluczowe
+- Rozwiązanie znacząco przyspiesza proces analizy danych
+
+### 4.2.2. Ograniczenia autonomiczności
+**Nie można polegać na modelach AI w pełni autonomicznym określaniu, które cechy powinny zostać użyte do filtracji**. Użytkownik musi samodzielnie:
+- Określić akceptowalny próg lub zakres priorytetów
+- Zweryfikować wyniki przed zastosowaniem filtrów
+- Dokonać finalnej filtracji ręcznie lub programistycznie
+
+Sens rozwiązania istnieje wtedy, gdy użytkownik potrzebuje **wsparcia w procesie filtracji**, ale nie może ono zastąpić całkowicie weryfikacji ludzkiej ze względu na:
+- Brak idealnej dokładności
+- Subiektywność interpretacji modeli
+- Sporadyczne błędy (jak w przypadku gpt-oss-20b w Teście 3)
+
+### 4.2.3. Warunki pełnej automatyzacji
+Całkowite zastąpienie ręcznej filtracji możliwe jest **tylko przy współpracy z programistami**, którzy:
+- Wykonali dane kwerendy wcześniej i znają oczekiwane odpowiedzi
+- Mogą ustalić specyficzne progi dla każdej konkretnej kwerendy i bazy danych
+- Wykorzystują konsekwentność modeli (stwierdzoną w testach) do przewidywania wyników
+
+Testy wykazały, że większość modeli jest **konsekwentna w swoich odpowiedziach** co do priorytetów, co pozwala na budowanie niezawodnych systemów przy odpowiedniej kalibracji.
+
+## 4.3. Problematyka RODO i bezpieczeństwa danych
+
+Wysyłanie całej bazy danych do zewnętrznego LLM (przez API) **rodzi istotne wątpliwości prawne**:
+
+### 4.3.1. Ryzyka związane z RODO
+- **Art. 5 RODO**: wymóg minimalizacji danych - przesyłanie całej bazy może naruszać zasadę przetwarzania tylko niezbędnych danych
+- **Art. 28 RODO**: wymóg odpowiednich gwarancji przy powierzeniu danych podmiotowi zewnętrznemu
+- **Art. 32 RODO**: obowiązek zapewnienia odpowiedniego poziomu bezpieczeństwa
+- **Transfer danych poza Europejskim Obszarem Gospodarczym**: modele hostowane poza UE wymagają odpowiednich klauzul umownych (SCC)
+
+### 4.3.2. Dane wrażliwe
+Szczególnie problematyczne jest przesyłanie:
+- Danych osobowych (art. 4 pkt 1 RODO)
+- Danych szczególnych kategorii (art. 9 RODO) - zdrowie, przekonania, dane biometryczne
+- Danych objętych tajemnicą przedsiębiorstwa
+- Danych objętych umowami NDA
+
+### 4.3.3. Rekomendowane rozwiązania
+1. **Anonimizacja/pseudonimizacja** przed wysłaniem (art. 25 RODO - privacy by design)
+2. **Self-hosted modele** (np. Mistral lokalnie)
+3. **On-premise rozwiązania** (np. Azure OpenAI w prywatnej chmurze)
+4. **Filtrowanie danych przed wysłaniem** - tylko metadane, bez wartości wrażliwych
+5. **Umowy DPA** (Data Processing Agreement) z dostawcą LLM
+
+**Wniosek**: Dla baz zawierających dane osobowe lub poufne, rozwiązanie w obecnej formie **nie jest optymalne i wymaga znaczących modyfikacji** przed wdrożeniem produkcyjnym.
+
+## 4.4. Paradoks trudności kwerend
+
+### 4.4.1. Nieoczekiwane obserwacje
+Analiza wyników ujawniła **zaskakujący paradoks**:
+- **Test 3 (trywialna kwerenda)**: wystąpił błąd, mimo że wymagała analizy tylko jednej cechy (`name`)
+- **Test 1 i 2 (trudniejsze kwerendy)**: modele radziły sobie lepiej, mimo większej złożoności
+
+### 4.4.2. Hipotezy wyjaśniające
+1. **Nadmierna pewność siebie przy prostych zadaniach**: modele mogą stosować uproszczone heurystyki
+2. **Brak koncentracji**: przy trywialnych zapytaniach model nie angażuje pełnych zasobów kontekstowych
+3. **Efekt "overthinking"**: bardziej złożone zadania aktywują głębsze mechanizmy rozumowania
+4. **Stochastyczność**: naturalna losowość w procesie generowania może powodować sporadyczne błędy
+
+### 4.4.3. Implikacje praktyczne
+- System nie może być w 100% autonomiczny nawet przy prostych zapytaniach
+- Wymaga warstwy weryfikacji niezależnie od złożoności kwerendy
+- Subiektywność modeli odbiegała od realnego rozkładu priorytetów (szczególnie widoczne w Teście 3)
+
+**Wniosek**: System nadaje się **tylko do wspomagania procesu filtracji**, nie może jej całkowicie zastąpić, ponieważ nie zapewnia zawsze idealnych wyników.
+
+## 4.5. Potencjał optymalizacji kwerendy
+
+Modyfikacja konstrukcji kwerendy mogłaby potencjalnie zapewnić lepsze rezultaty poprzez:
+
+1. **Structured output formatting**: ściślejsze określenie formatu odpowiedzi
+2. **Iteracyjne doprecyzowanie**: wieloetapowa analiza z weryfikacją
+
+**Wymaga to jednak dodatkowych badań** w kierunku optymalizacji rozwiązania, w tym:
+- Systematycznego testowania różnych wariantów promptów
+- Porównania efektywności różnych strategii promptowania
+
+## 4.6. Problem limitu kontekstu
+
+### 4.6.1. Obserwacje
+W testach napotkano **problemy z limitem kontekstu**, szczególnie dla:
+- Modelu CohereLabs/command-a-translate (pominięty w testach na większych bazach)
+- Baz danych powyżej 200 obiektów z pełnymi metadanymi (model inclusionAI/Ling-1T:featherless-ai)
+
+### 4.6.2. Rozwiązanie: Podział bazy danych
+Proponowane podejście dla bardzo dużych baz:
+```python
+def split_database(database, max_tokens_per_chunk):
+    chunks = []
+    current_chunk = []
+    current_tokens = 0
+    
+    for record in database:
+        record_tokens = estimate_tokens(record)
+        if current_tokens + record_tokens > max_tokens_per_chunk:
+            chunks.append(current_chunk)
+            current_chunk = [record]
+            current_tokens = record_tokens
+        else:
+            current_chunk.append(record)
+            current_tokens += record_tokens
+    
+    if current_chunk:
+        chunks.append(current_chunk)
+    
+    return chunks
+```
+
+**Agregacja wyników**:
+- Zliczenie priorytetów z każdego chunka
+- Uśrednienie lub mediana priorytetów
+- Normalizacja do skali 0-100
+
+### 4.6.3. Optymalizacja kosztów: Unikalne wartości
+
+**Zamiast wysyłać całą bazę danych**, wysłać tylko:
+- Listę cech (nazwy kolumn)
+- Unikalne wartości dla każdej cechy
+- Statystyki (liczność, typy danych)
+
+Przykład:
+```json
+{
+  "name": {
+    "unique_count": 450,
+    "sample_values": ["Portret kobiety", "Krajobraz", "Bitwa"],
+    "type": "text"
+  },
+  "createdate": {
+    "unique_count": 85,
+    "range": ["1890", "1945"],
+    "type": "date"
+  }
+}
+```
+
+**Zalety**:
+- Dramatyczna redukcja tokenów (z dziesiątek tysięcy do setek)
+- Znaczące obniżenie kosztów API
+- Zachowanie kontekstu semantycznego
+
+**Wady i ograniczenia**:
+- **Nieadekwatne dla każdej bazy**: bazy z dużą liczbą unikalnych wartości nie skorzystają znacząco
+- **Utrata kontekstu**: model nie widzi konkretnych rekordów, tylko ich statystyki
+- **Ryzyko błędnej oceny**: może prowadzić do problemów z ustaleniem odpowiednich priorytetów
+- **Wymaga dalszych badań**: brak testów empirycznych tego podejścia
+
+**Wnioski**: Rozwiązanie może być bardzo efektywne dla baz z małą liczbą unikalnych wartości (np. kategorie, statusy), ale wymaga walidacji na rzeczywistych danych.
+
+## 4.7. Fine-tuning jako alternatywa
+
+### 4.7.1. Koncepcja
+Zamiast uniwersalnego promptu, można **wytrenować dedykowany model** dla konkretnej bazy danych:
+
+```python
+# Przykład danych treningowych
+training_data = [
+    {
+        "input": "Znajdź dzieła przedstawiające ludzi",
+        "output": {"name": 100, "type": 20, "creator": 10, ...}
+    },
+    {
+        "input": "Znajdź dzieła wykonane w czasie wojny",
+        "output": {"name": 70, "createdate": 90, "place": 80, ...}
+    }
+]
+```
+
+### 4.7.2. Zalety
+- **Większa precyzja** dla konkretnej domeny
+- **Potencjalnie tańsze** w długoterminowym użytkowaniu
+- **Konsekwentność** wyników dla podobnych zapytań
+
+### 4.7.3. Wady i ograniczenia
+- **Koszt początkowy**: wymaga przygotowania danych treningowych
+- **Czas trenowania**: od kilku godzin do dni
+- **Wymaga ekspertów**: do anotacji danych treningowych
+- **Brak elastyczności**: model dopasowany do jednej bazy nie działa na innych
+- **Trudność utrzymania**: przy zmianach w strukturze bazy wymaga re-treningu
+
+### 4.7.4. Ocena celowości
+**Nie uważamy, że takie rozwiązanie będzie lepsze od standardowego filtrowania "ręcznego"** ponieważ:
+- Koszt przygotowania danych treningowych jest wysoki
+- Tradycyjne filtrowanie SQL/NoSQL jest deterministyczne i przewidywalne
+- Fine-tuning ma sens tylko przy bardzo częstym użyciu tego samego typu zapytań
+- Wymaga infrastruktury MLOps (wersjonowanie modeli, monitoring)
+
+**Potencjalny przypadek użycia**: System, w którym użytkownicy codziennie wykonują setki podobnych zapytań do tej samej bazy (np. platforma analityczna dla konkretnej branży).
+
+## 4.8. Analiza czasu wykonania
+
+# //TODO ANALIZA
+
+## 4.9. Wady i zalety rozwiązania
+
+### 4.9.1. Zalety ✓
+
+1. **Szybkość analizy początkowej**
+   - Znacznie szybsze niż ręczne przeglądanie wszystkich cech
+   - Natychmiastowa identyfikacja cech kluczowych
+
+2. **Elastyczność**
+   - Działa na różnych strukturach danych (SQL, NoSQL)
+   - Nie wymaga znajomości schematu bazy przez użytkownika
+   - Obsługuje zapytania w języku naturalnym
+
+3. **Odkrywanie nieoczywistych zależności**
+   - Model może zauważyć powiązania, których użytkownik by nie zasugerował
+   - Przydatne w eksploracyjnej analizie danych (EDA)
+
+4. **Brak konieczności programowania**
+   - Dostępne dla użytkowników nietechnicznych
+   - Intuicyjny interfejs (natural language query)
+
+5. **Adaptacyjność**
+   - Ten sam prompt działa na różnych domenach (fotografie, produkty, dokumenty)
+   - Nie wymaga ręcznego dostrajania dla każdej bazy
+
+### 4.9.2. Wady ✗
+
+1. **Brak deterministyczności**
+   - Sporadyczne błędy nawet przy trywialnych zapytaniach
+   - Niemożność zagwarantowania 100% poprawności
+   - Stochastyczność generowania odpowiedzi
+
+2. **Problem z progami**
+   - Brak uniwersalnego kryterium odcięcia priorytetów
+   - Wymaga ręcznej weryfikacji i ustalenia progów per-kwerenda
+
+3. **Koszty**
+   - Opłaty za API (szczególnie dla dużych baz)
+   - Koszt ~$0.001-0.01 per zapytanie (w zależności od modelu)
+   - Dla 10000 obiektów: ~$0.1-1.0 per query
+
+4. **Czas wykonania**
+   # //TODO
+
+5. **Problemy z RODO**
+   - Wysyłanie danych do zewnętrznego API może naruszać przepisy
+   - Wymaga anonimizacji lub self-hosted rozwiązań
+   - Ryzyko prawne dla danych wrażliwych
+
+6. **Subiektywność**
+   - Rozkłady priorytetów często semantycznie nieadekwatne
+   - Nadmierne priorytety dla nieistotnych cech
+   - Różnice między modelami
+
+7. **Limit kontekstu**
+   - Niemożność przetworzenia bardzo dużych baz (>200k tokenów)
+   - Wymaga rozwiązań obejściowych (chunking, agregacja)
+
+8. **Brak transparentności**
+   - Trudność w wyjaśnieniu dlaczego dany priorytet został nadany
+   - "Black box" - brak interpretowalności decyzji ([źródło o black-box: Hastie, Tibshirani & Friedman – The Elements of Statistical Learning])
+
+### 4.9.3. Porównanie z alternatywami
+
+| Aspekt | Nasz system | SQL WHERE | Elasticsearch | ML Classifier |
+|--------|-------------|-----------|---------------|---------------|
+| Szybkość 
+# //TODO SZYBKOŚĆ
+| Koszty | ⚠️ $0.1-1/q | ✓ Darmowe | ⚠️ Infrastruktura | ⚠️ Trening |
+| Elastyczność | ✓ Wysoka | ✗ Niska | ⚠️ Średnia | ✗ Niska |
+| Dokładność | ⚠️ 94-99% | ✓ 100% | ✓ ~100% | ⚠️ 85-95% |
+| Łatwość użycia | ✓ Bardzo wysoka | ⚠️ Wymaga SQL | ⚠️ Konfiguracja | ✗ Wymaga ML |
+| RODO compliance | ✗ Problematyczne | ✓ OK | ✓ OK | ⚠️ Zależy |
+
+## 4.10. Wnioski końcowe i rekomendacje
+
+### 4.10.1. Główne ustalenia
+
+1. **System działa, ale z ograniczeniami**
+   - 94-99% poprawnych priorytetów w większości testów wg. naszych założeń
+   - Sporadyczne błędy nawet przy prostych zapytaniach
+   - Nie nadaje się do pełnej automatyzacji bez nadzoru
+
+2. **Najlepsze zastosowanie: wspomaganie, nie zastępowanie**
+   - Idealne do szybkiej eksploracji nieznanych baz danych
+   - Dobre do wskazania kierunku dalszej analizy
+   - Nie zastępuje ręcznej weryfikacji i filtrowania
+
+3. **Kluczowe problemy do rozwiązania**
+   - Ustalanie progów odcięcia
+   - Zgodność z RODO
+   - Czas wykonania
+   - Deterministyczność wyników
+
+### 4.10.2. Rekomendacje wdrożeniowe
+
+**NIE ZALECAMY** wdrożenia w obecnej formie dla:
+- Systemów produkcyjnych wymagających 100% niezawodności
+- Aplikacji real-time
+- Baz zawierających dane osobowe (bez anonimizacji)
+- Procesów automatycznych bez nadzoru ludzkiego
+
+**ZALECAMY** rozważenie dla:
+- Narzędzi analitycznych dla data scientists
+- Eksploracyjnej analizy danych (EDA tools)
+- Prototypowania systemów filtracji
+- Systemów wspomagania decyzji z weryfikacją ludzką
+
+### 4.10.3. Dalsze kierunki badań
+
+1. **Optymalizacja promptów** (wysoki priorytet)
+   - Systematyczne testowanie różnych strategii
+
+2. **Rozwiązanie problemu progów** (wysoki priorytet)
+   - Algorytmy adaptacyjnego ustalania progów
+   - Meta-model do predykcji optymalnego progu
+
+3. **Testy na większych bazach** (średni priorytet)
+   - Bazy >10000 obiektów
+   - Różne domeny (nie tylko fotografie)
+   - Różne struktury (głęboko zagnieżdżone JSON, grafy)
+
+4. **Benchmarking z alternatywami** (średni priorytet)
+   - Porównanie z Elasticsearch relevance scoring
+   - Porównanie z tradycyjnymi klasyfikatorami ML
+   - Analiza cost-benefit
+
+5. **Privacy-preserving rozwiązania** (wysoki priorytet dla wdrożeń)
+   - Self-hosted modele
+   - Federated learning [źródło: https://en.wikipedia.org/wiki/Federated_learning]
+   - Differential privacy [źródło: https://en.wikipedia.org/wiki/Differential_privacy]
+
+### 4.10.4. Wartość naukowa pracy
+
+Pomimo ograniczeń praktycznych, praca wnosi istotny wkład:
+- **Nowatorskie podejście** do problemu priorytetyzacji cech
+- **Systematyczna ewaluacja** różnych LLM w tym kontekście
+- **Identyfikacja paradoksu trudności** (lepsze wyniki na trudniejszych zapytaniach)
+- **Dokumentacja ograniczeń** - równie ważna jak sukcesy
+- **Wskazanie kierunków** dalszego rozwoju
+
+**Konkluzja**: System ma potencjał jako narzędzie wspomagające, ale wymaga dalszych badań i optymalizacji przed wdrożeniem produkcyjnym. Praca stanowi solidną podstawę do kontynuacji badań w tym kierunku.
 
 
 
