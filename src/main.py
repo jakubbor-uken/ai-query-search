@@ -1,28 +1,30 @@
-import sys
 import os
 import logging
 
 from logger import Logger
-from query_handler import QueryHandler
-from ai_analysis import AI_Analysis    
-
-
-
-
-
+from ai_analysis import AI_Analysis
 
 
 if __name__ == '__main__':
+    """Hierarchy of our project's encapsulation is as follows:
+    
+    main
+      └── ai_analysis
+            └── query_handler
+                  └── ai_search
+                        └── api_handler
+            
+    with each of them using logger
+    """
     logs = Logger()
     
-    #Load enviroment variables for api keys:
+    # Load enviroment variables for api keys:
     if "AI_API_KEYS" not in os.environ:
         os.environ["AI_API_KEYS"] = os.getcwd() + "/api_keys.json"
 
     logging.getLogger(__name__).info(f"API keys path: {os.environ['AI_API_KEYS']}")
 
-
-    #Test configuration
+    # Test configuration
     model_list = [
         # "meta-llama/Llama-3.1-8B-Instruct", # Removed because of inconsistent results
         "deepseek-ai/DeepSeek-V3-0324",
@@ -38,7 +40,7 @@ if __name__ == '__main__':
         # {"query": "Znajdź najbardziej wydajny laptop", "db": os.getcwd() + "/databases/db_laptopy.json"},
         # {"query": "Znajdź wakacje które są najbliżej Polski", "db": os.getcwd() + "/databases/db_wakacje.json"}
 
-        #Target database tests
+        # Target database tests
         # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb50.json"},
         # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb100.json"},
         # {"query": "Znajdź dzieła wykonane w trakcie wojny w danym państwie", "db": os.getcwd() + "/databases/sampledb200.json"},
@@ -61,24 +63,3 @@ if __name__ == '__main__':
 
     analyzer = AI_Analysis()
     analyzer.run_analysis(model_list, dbs_and_queries)
-
-
-
-
-
-
-
-
-    #Load user query (testing)
-    # if len(sys.argv) < 2:
-    #     raise ValueError("No query specified")
-
-    # query = sys.argv[1]
-    # logging.getLogger(__name__).info(f"Query: {query}")
-
-
-    # query_handler = QueryHandler()
-
-    # query_handler.load_database(os.environ["AI_DB_PATH"])
-    # query_handler.send_query(query, "deepseek-ai/DeepSeek-V3-0324")
-    
