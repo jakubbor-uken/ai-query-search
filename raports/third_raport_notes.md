@@ -1,30 +1,34 @@
-Raport 3 - dostosowanie formatu odpowiedzi LLMów i filtracja wadliwych modelów AI
-
-//TODO: przejrzeć historię zmian w promptach i dopisać argumentacje dlaczego zostały tak zmienione i podsumowania czy dawały lepsze rezultaty do każdego etapu outputów
-//TODO: i jakieś wnioski że się udało format uzyskać jednoznaczny nawet przy wielokrotnym wykonaniu testów (nie określamy ile konkretnie testów wykonaliśmy w trakcie prac nad standaryzacją formatowania)
+# Raport 3 - dostosowanie formatu odpowiedzi LLMów i filtracja wadliwych modelów AI  
 
 
+  
+## Rozwój formatu kwerendy  
 
-query before:
-#self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć listę pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, dane podane są poniżej: ###\n"
+W trakcie prób uzyskania jednoznacznego i celnego formatu modyfikowaliśmy kwerendę. Staraliśmy się skonstruować zdania tak, by zapewniały jednoznaczne wymagania co do odpowiedzi modelów, jak również zapewnić że model będzie znał kontekst zapytania i co dokładnie się od niego oczekuje. Dokładniejsza historia modyfikacji kwerendy dodatkowej jest dostępna w historii commitów na GitHub. Finalnie dostosowaliśmy kwerendę w następujący sposób:
 
-query now:
+
+query before:  
+```python
+self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć listę pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, dane podane są poniżej: ###\n"
+```
+
+query now:  
+```python
 self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć listę pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, twoja wiadomość musi składać się tylko ze znaków które można zparsować na JSON, dane podane są poniżej: ###\n"
+```
 
 
-ze względu na problemy z formatowaniem
-zedytowaliśmy projekt tak by rezultat zawsze był konwertowany do json
-wzięliśmy pod uwagę kilka wyników z różnych modeli i ustaliliśmy jakie znaki trzeba usunąć
-by uzyskać konkretny rezultat na którym można realnie pracować
-
-konkretną standaryzacje formatowania odpowiedzi modelów można znaleźć w kodzie źródłowym w pliku:
-src/ai_search.py
-
+Ze względu na problemy z formatowaniem zedytowaliśmy projekt tak by rezultat zawsze był konwertowany do json.   
+Wzięliśmy pod uwagę kilka wyników z różnych modeli i ustaliliśmy jakie znaki trzeba usunąć by uzyskać konkretny rezultat na którym można realnie pracować.  
+    
+Konkretną standaryzacje formatowania odpowiedzi modelów można znaleźć w kodzie źródłowym w pliku:  
+`src/ai_search.py`
+    
 
 
-po zmianach w formatowaniu i kwerendzie:
-
-
+Po zmianach w formatowaniu i kwerendzie:    
+  
+```python
 {'output': {'price': 1, 'productType': 0.9, 'inStock': 0.8, 'currency': 0.7, 'brand': 0.6, 'category': 0.5, 'promotion': 0.4, 'store': 0.3, 'url': 0.2, 'shippingInfo': 0.1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź buty o najmniejszej cenie'}
 {'output': {'fields': [{'name': 'productName', 'priority': 10, 'reason': 'Nazwa produktu jest najbardziej bezpośrednim wskazaniem narzędzi kuchennych'}, {'name': 'category', 'priority': 9, 'reason': "Kategoria 'Akcesoria kuchenne' bezpośrednio wskazuje na narzędzia kuchenne"}, {'name': 'subcategory', 'priority': 8, 'reason': "Podkategorie takie jak 'Noże' czy 'Zestawy specjalistyczne' mogą wskazywać narzędzia"}, {'name': 'itemType', 'priority': 7, 'reason': "Typ 'product' wskazuje na produkty, które mogą być narzędziami kuchennymi"}, {'name': 'brand', 'priority': 6, 'reason': 'Marki często specjalizują się w narzędziach kuchennych'}, {'name': 'price', 'priority': 2, 'reason': 'Cena może być pomocna w ocenie, ale nie jest bezpośrednim wskaźnikiem'}, {'name': 'inStock', 'priority': 1, 'reason': 'Dostępność produktu może być istotna dla klienta'}, {'name': 'currency', 'priority': 1, 'reason': 'Waluta jest istotna przy porównywaniu cen'}, {'name': 'store', 'priority': 1, 'reason': 'Sklepy specjalistyczne mogą oferować narzędzia kuchenne'}, {'name': 'url', 'priority': 1, 'reason': 'Link do produktu może być pomocny'}, {'name': 'promotion', 'priority': 1, 'reason': 'Promocje mogą być dodatkowym atutem'}, {'name': 'shippingInfo', 'priority': 1, 'reason': 'Informacje o dostawie mogą być istotne'}]}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'category': 10, 'subcategory': 8, 'ram': 10, 'ramUnit': 8, 'brand': 7, 'productName': 6, 'price': 5, 'productLine': 4, 'model': 3, 'processor': 3, 'screenSize': 2, 'inStock': 1, 'promotion': 1, 'shippingInfo': 1, 'store': 1, 'url': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź najbardziej wydajny laptop'}
@@ -49,19 +53,24 @@ po zmianach w formatowaniu i kwerendzie:
 {'output': {'itemType': 3, 'productName': 2, 'category': 2, 'subcategory': 2, 'price': 1, 'inStock': 1, 'promotion': 1, 'brand': 1, 'url': 1, 'cuisine': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'category': 1.0, 'subcategory': 1.0, 'itemType': 0.9, 'brand': 0.8, 'productName': 0.8, 'ram': 0.7, 'price': 0.6, 'inStock': 0.5, 'promotion': 0.4, 'store': 0.3, 'url': 0.2, 'currency': 0.1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'country': 3, 'destination': 3, 'price': 2, 'inStock': 2, 'promotion': 2, 'travelType': 1, 'boardType': 1, 'store': 1, 'url': 1, 'currency': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
-
-
-
-odpowiedziom nadal brakuje jednoznacznej struktury. w związku z tym zmieniliśmy kwerendę na:
-
-before:
+```
+  
+    
+Odpowiedziom nadal brakuje jednoznacznej struktury. w związku z tym zmieniliśmy kwerendę na:  
+  
+before: 
+```python 
 self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć listę pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, twoja wiadomość musi składać się tylko ze znaków które można zparsować na JSON, dane podane są poniżej: ###\n"
-after:
+```
+
+after:  
+```python
 self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć listę pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, twoja wiadomość musi składać się tylko ze znaków które można zparsować na JSON, utrzymaj konsekwentnie następujący format: {\"propertyName\": priorityValue}, dane podane są poniżej: ###\n"
-
-
-niestety nadal część modeli zwracała odpowiedzi z 'fields' czego chcieliśmy uniknąć:
-
+```
+  
+    
+niestety nadal część modeli zwracała odpowiedzi z 'fields' czego chcieliśmy uniknąć:  
+```python
 {'output': {'price': 5, 'productType': 4, 'category': 3, 'brand': 2, 'inStock': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź buty o najmniejszej cenie'}
 {'output': [{'id': 0, 'priority': 8, 'fields': ['productName', 'category', 'subcategory']}, {'id': 5, 'priority': 7, 'fields': ['productName', 'category', 'subcategory']}, {'id': 9, 'priority': 9, 'fields': ['productName', 'category', 'subcategory']}, {'id': 7, 'priority': 6, 'fields': ['title', 'subcategory']}, {'id': 13, 'priority': 5, 'fields': ['productName', 'category', 'subcategory']}, {'id': 15, 'priority': 4, 'fields': ['title', 'subcategory']}, {'id': 21, 'priority': 5, 'fields': ['productName', 'category', 'subcategory']}, {'id': 23, 'priority': 5, 'fields': ['title', 'subcategory']}, {'id': 25, 'priority': 7, 'fields': ['productName', 'category', 'subcategory']}], 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'itemType': 10, 'category': 10, 'subcategory': 8, 'ram': 10, 'ramUnit': 8, 'price': 6, 'currency': 5, 'store': 3, 'url': 3, 'inStock': 5, 'promotion': 2, 'shippingInfo': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź najbardziej wydajny laptop'}
@@ -86,17 +95,22 @@ niestety nadal część modeli zwracała odpowiedzi z 'fields' czego chcieliśmy
 {'output': {'itemType': 3, 'productName': 3, 'category': 3, 'subcategory': 3, 'price': 2, 'currency': 2, 'store': 2, 'url': 2, 'inStock': 2, 'promotion': 1, 'brand': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'itemType': 3, 'category': 3, 'subcategory': 3, 'ram': 3, 'price': 2, 'inStock': 2, 'brand': 1, 'productLine': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'country': 3, 'destination': 3, 'price': 2, 'inStock': 2, 'promotion': 1, 'travelType': 1, 'boardType': 1, 'store': 0, 'url': 0, 'currency': 0, 'id': 0, 'itemType': 0, 'productName': 0, 'category': 0, 'subcategory': 0}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
-
-nowy prompt:
+```
+  
+nowy prompt:   
+```python
 self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć obiekt pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, twoja wiadomość musi składać się tylko ze znaków które można zparsować na JSON, utrzymaj konsekwentnie następujący format: {\"propertyName\": priorityValue}, odpowiedź musi zawrzeć się tylko w jednym obiekcie, dane podane są poniżej: ###\n"
-
-jednak wtedy model zwracał wiele obiektów zamiast jednego z kilkoma polami
-
+```
+  
+Jednak wtedy model zwracał wiele obiektów zamiast jednego z kilkoma polami  
+  
 nowy prompt:
+```python  
 self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć tylko jeden obiekt wszystkich pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, twoja wiadomość musi składać się tylko ze znaków które można zparsować na JSON, utrzymaj konsekwentnie następujący format: {\"propertyName\": priorityValue, \"propertyName\": priorityValue}, odpowiedź musi zawrzeć się tylko w jednym obiekcie zawierającym wszystkie cechy i ich priorytety, dane podane są poniżej: ###\n"
-
-zauważylismy dziwne zachowania jednego modelu Llama-3.1-8B Instruct, zwrócił pełne części bazy danych:
-
+```
+  
+zauważylismy dziwne zachowania jednego modelu Llama-3.1-8B Instruct, zwrócił pełne części bazy danych:  
+```python
 2025-11-19 19:35:33 | INFO | api_handler.py:22 >>> Sending request to HuggingFace API
 2025-11-19 19:35:33 | INFO | api_handler.py:23 >>> Model: meta-llama/Llama-3.1-8B-Instruct
 2025-11-19 19:35:42 | INFO | _client.py:1025 >>> HTTP Request: POST https://router.huggingface.co/v1/chat/completions "HTTP/1.1 200 OK"
@@ -116,33 +130,37 @@ zauważylismy dziwne zachowania jednego modelu Llama-3.1-8B Instruct, zwrócił 
 {"destination": "Wakacje na Majorce", "country": "Hiszpania", "price": 2100, "currency": "PLN", "store": null, "url": null, "inStock": true, "promotion": true, "travelType": "Last minute"},
 
 {"destination": "Norwegia", "country": "Norwegia", "price": 3800, "currency": "PLN", "store": "fjordytour.pl", "url": "www.fjordytour.pl", "inStock": true, "promotion": false, "travelType": "Sightseeing tour"},
+```
 
 
-
-
-jak również miał problemy z rozłożeniem priorytetów (nadał tylko 1 i 0):
-
+  
+jak również miał problemy z rozłożeniem priorytetów (nadał tylko 1 i 0):  
+```python
 2025-11-19 19:35:28 | INFO | api_handler.py:22 >>> Sending request to HuggingFace API
 2025-11-19 19:35:29 | INFO | api_handler.py:23 >>> Model: meta-llama/Llama-3.1-8B-Instruct
 2025-11-19 19:35:33 | INFO | _client.py:1025 >>> HTTP Request: POST https://router.huggingface.co/v1/chat/completions "HTTP/1.1 200 OK"
 2025-11-19 19:35:33 | INFO | api_handler.py:49 >>> Response received
 2025-11-19 19:35:33 | INFO | ai_search.py:39 >>> {"category": 1, "subcategory": 1, "ram": 1, "price": 1, "currency": 1, "store": 1, "url": 1, "inStock": 1, "promotion": 1, "shippingInfo": 1, "model": 1, "screenSize": 1, "processor": 1, "gpu": 1, "productLine": 1, "brand": 1, "productName": 1, "price": 1, "usage": 1, "formFactor": 1, "features": 1, "focus": 1, "stockStatus": 1, "promotionValidUntil": 1, "paymentOptions": 1, "shippingInfo": 1, "contentType": 1, "topic": 1, "title": 1, "id": 0, "ramUnit": 0}
-
-
-ale w innym wypadku rozłożył poprawnie:
-
+```
+  
+ale w innym wypadku rozłożył poprawnie:  
+  
+```python
 2025-11-19 19:35:25 | INFO | api_handler.py:23 >>> Model: meta-llama/Llama-3.1-8B-Instruct
 2025-11-19 19:35:28 | INFO | _client.py:1025 >>> HTTP Request: POST https://router.huggingface.co/v1/chat/completions "HTTP/1.1 200 OK"
 2025-11-19 19:35:28 | INFO | api_handler.py:49 >>> Response received
 2025-11-19 19:35:28 | INFO | ai_search.py:39 >>> {"productName": 0.5, "recipeName": 0.5, "title": 0.5, "category": 1, "subcategory": 1, "price": 0.2, "currency": 0.2, "store": 0.1, "url": 0.1, "inStock": 0.1, "promotion": 0.1, "shippingInfo": 0.1, "brand": 0.5, "cuisine": 0.5, "contentType": 0.5, "dietType": 0.5, "format": 0.5, "specialty": 0.5, "occasion": 0.5, "paymentOptions": 0.5, "stockStatus": 0.5, "model": 0.5, "variety": 0.5, "priceFrom": 0.1, "edition": 0.1}
+```
 
-
-
-
-nowy prompt:
+  
+  
+  
+nowy prompt:  
+```python
 self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól danych które najbardziej jej odpowiadają i zwróć tylko jeden obiekt wszystkich pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, twoja wiadomość musi składać się tylko ze znaków które można zparsować na JSON, utrzymaj konsekwentnie następujący format: {\"propertyName\": priorityValue, \"propertyName\": priorityValue} - odpowiedź musi zawrzeć się tylko w jednym obiekcie, dane podane są poniżej: ###\n"
-
-
+```
+   
+```python
 {'output': {'price': 10, 'productType': 5, 'category': 3, 'inStock': 4, 'promotion': 2}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź buty o najmniejszej cenie'}
 {'output': {'productName': 10, 'category': 9, 'subcategory': 8, 'itemType': 7, 'brand': 6, 'price': 5, 'inStock': 4, 'url': 3, 'store': 2, 'promotion': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'category': 10, 'subcategory': 5, 'ram': 8, 'brand': 7, 'productName': 6, 'price': 9, 'inStock': 10, 'promotion': 4, 'shippingInfo': 3, 'productLine': 5, 'model': 4, 'processor': 4, 'screenSize': 3, 'gpu': 3, 'stockStatus': 2, 'promotionValidUntil': 2, 'usage': 3, 'formFactor': 2, 'features': 1, 'paymentOptions': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź najbardziej wydajny laptop'}
@@ -167,15 +185,15 @@ self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety p�
 {'output': {'category': 1, 'subcategory': 1, 'itemType': 1, 'productName': 0.8, 'recipeName': 0.8, 'title': 0.7, 'inStock': 0.6, 'price': 0.5, 'brand': 0.5, 'cuisine': 0.4, 'url': 0.3, 'id': 0.1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'id': 0, 'itemType': 3, 'brand': 3, 'productName': 3, 'category': 3, 'subcategory': 3, 'productLine': 3, 'ram': 3, 'price': 2, 'inStock': 2, 'promotion': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'country': 3, 'destination': 3, 'price': 2, 'inStock': 1, 'promotion': 1, 'travelType': 1, 'boardType': 1, 'store': 0, 'url': 0, 'id': 0}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
+```
+  
+Obserwacja rezultatów z poprzednich wykonań doprowadziła nas do wniosku, że model **meta-llama/Llama-3.1-8B-Instruct** nie nadaje się do naszego użycia - nie można było liczyć na jednoznaczną odpowiedź, a model nie przestrzegał zawsze zasad zapisanych w promptcie.  
+Ze względu na te problemy zdecydowaliśmy pominąć kolejne testy na tym modelu i zdecydowaliśmy że **nie jest** on obecnie gotowy do konsekwentnego, automatycznego ustalania priorytetów danych.  
+Reszta modelów radziła sobie lepiej i przestrzegała prompta.  
+  
+Przeprowadziliśmy kolejne dwa wykonania programu, by upewnić się że output jest poprawny.  
 
-
-Obserwacja rezultatów z poprzednich wykonań doprowadziła nas do wniosku, że model **meta-llama/Llama-3.1-8B-Instruct** nie nadaje się do naszego użycia - nie można było liczyć na jednoznaczną odpowiedź, a model nie przestrzegał zawsze zasad zapisanych w promptcie.
-Ze względu na te problemy zdecydowaliśmy pominąć kolejne testy na tym modelu i zdecydowaliśmy że **nie jest** on obecnie gotowy do konsekwentnego, automatycznego ustalania priorytetów danych.
-Reszta modelów radziła sobie lepiej i przestrzegała prompta.
-
-Przeprowadziliśmy kolejne dwa wykonania programu, by upewnić się że output jest poprawny.
-
-
+```python
 {'output': {'price': 10, 'productType': 8, 'category': 7, 'inStock': 6, 'brand': 5, 'currency': 4, 'store': 3, 'url': 2, 'promotion': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź buty o najmniejszej cenie'}
 {'output': {'productName': 10, 'category': 9, 'subcategory': 8, 'itemType': 7, 'brand': 6, 'price': 5, 'currency': 4, 'store': 3, 'url': 2, 'inStock': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'category': 10, 'subcategory': 5, 'ram': 8, 'brand': 7, 'productName': 6, 'price': 9, 'processor': 3, 'model': 4, 'screenSize': 2, 'productLine': 2, 'inStock': 1, 'promotion': 1, 'shippingInfo': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź najbardziej wydajny laptop'}
@@ -196,15 +214,17 @@ Przeprowadziliśmy kolejne dwa wykonania programu, by upewnić się że output 
 {'output': {'category': 3, 'subcategory': 3, 'itemType': 2, 'productName': 1, 'title': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 32, 'subcategory': 'Gaming', 'category': 'Laptopy', 'price': 6999, 'brand': 'Lenovo', 'productName': 'Laptop Lenovo Legion', 'id': 20}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'destination': 5, 'country': 5, 'price': 4, 'inStock': 3, 'promotion': 3, 'travelType': 3, 'boardType': 2, 'departureInfo': 2, 'url': 1, 'store': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
+```
+  
+Tym razem model **inclusionAI/Ling-1T:featherless-ai** źle zrozumiał polecenie za jednym razem. Zmodyfikowaliśmy kwerendę:  
 
-
-Tym razem model inclusionAI/Ling-1T:featherless-ai źle zrozumiał polecenie za jednym razem. Zmodyfikowaliśmy kwerendę:
-
+```python
 self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól (object properties) danych które najbardziej jej odpowiadają i zwróć tylko jeden obiekt wszystkich pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, twoja wiadomość musi składać się tylko ze znaków które można zparsować na JSON, utrzymaj konsekwentnie następujący format: {\"propertyName\": priorityValue, \"propertyName\": priorityValue} - odpowiedź musi zawrzeć się tylko w jednym obiekcie, dane podane są poniżej: ###\n"
-
-
-Otrzymaliśmy (wykonanie 1):
-
+```
+  
+  
+Otrzymaliśmy (wykonanie 1):  
+```python
 {'output': {'price': 10, 'productType': 9, 'category': 8, 'inStock': 7, 'brand': 6, 'promotion': 5, 'currency': 4, 'store': 3, 'url': 2, 'shippingInfo': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź buty o najmniejszej cenie'}
 {'output': {'itemType': 10, 'productName': 9, 'category': 8, 'subcategory': 7, 'brand': 6, 'price': 5, 'currency': 4, 'store': 3, 'url': 2, 'inStock': 1, 'promotion': 0}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'category': 10, 'subcategory': 8, 'ram': 10, 'ramUnit': 10, 'price': 8, 'currency': 6, 'brand': 7, 'productName': 9, 'productLine': 6, 'processor': 5, 'screenSize': 4, 'model': 5, 'inStock': 3, 'promotion': 2, 'shippingInfo': 1, 'store': 1, 'url': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź najbardziej wydajny laptop'}
@@ -225,9 +245,10 @@ Otrzymaliśmy (wykonanie 1):
 {'output': {'category': 1, 'subcategory': 1, 'productName': 1, 'itemType': 0.5, 'brand': 0.5, 'price': 0.3, 'cuisine': 0.2, 'inStock': 0.1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 10, 'category': 9, 'subcategory': 9, 'price': 7, 'itemType': 10, 'brand': 3}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'destination': 5, 'country': 5, 'price': 4, 'inStock': 3, 'promotion': 3, 'travelType': 3, 'boardType': 3, 'departureInfo': 5, 'location': 2, 'url': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
-
-Format wyników poprawny. Test powtórzony z tymi samymi parametrami (wykonanie 2):
-
+```
+   
+Format wyników poprawny. Test powtórzony z tymi samymi parametrami (wykonanie 2):  
+```python
 {'output': {'price': 10, 'productType': 9, 'inStock': 8, 'currency': 7, 'brand': 6, 'category': 5, 'promotion': 4, 'store': 3, 'url': 2, 'shippingInfo': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź buty o najmniejszej cenie'}
 {'output': {'productName': 10, 'itemType': 9, 'category': 8, 'subcategory': 7, 'brand': 6, 'price': 5, 'inStock': 4, 'store': 3, 'url': 2, 'promotion': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 10, 'productLine': 8, 'model': 7, 'brand': 6, 'price': 5, 'subcategory': 4, 'category': 3, 'inStock': 2, 'processor': 1, 'promotion': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź najbardziej wydajny laptop'}
@@ -248,10 +269,10 @@ Format wyników poprawny. Test powtórzony z tymi samymi parametrami (wykonanie 
 {'output': {'category': 1, 'subcategory': 1, 'itemType': 1, 'productName': 0.8, 'recipeName': 0.5, 'title': 0.3, 'cuisine': 0.7, 'brand': 0.6, 'inStock': 0.9, 'promotion': 0.7, 'price': 0.4, 'url': 0.3}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 5, 'subcategory': 4, 'category': 3, 'price': 2, 'brand': 1, 'productName': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'destination': 5, 'country': 5, 'price': 4, 'inStock': 3, 'promotion': 3}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
-
-
-Format wyników poprawny. Test powtórzony z tymi samymi parametrami (wykonanie 3):
-
+```
+   
+Format wyników poprawny. Test powtórzony z tymi samymi parametrami (wykonanie 3):  
+```python
 {'output': {'price': 10, 'productType': 9, 'inStock': 8, 'currency': 7, 'brand': 6, 'category': 5, 'store': 4, 'url': 3, 'promotion': 2, 'shippingInfo': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź buty o najmniejszej cenie'}
 {'output': {'itemType': 10, 'productName': 9, 'category': 8, 'subcategory': 7, 'brand': 6, 'price': 5, 'currency': 4, 'store': 3, 'url': 2, 'inStock': 1, 'promotion': 0}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'category': 5, 'subcategory': 4, 'ram': 10, 'processor': 3, 'gpu': 2, 'price': 7, 'brand': 6, 'productLine': 5, 'model': 4, 'screenSize': 3, 'inStock': 8, 'promotion': 6, 'shippingInfo': 4, 'formFactor': 2, 'usage': 3}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź najbardziej wydajny laptop'}
@@ -272,9 +293,10 @@ Format wyników poprawny. Test powtórzony z tymi samymi parametrami (wykonanie 
 {'output': {'category': 3, 'subcategory': 3, 'itemType': 2, 'productName': 3, 'brand': 2, 'price': 1, 'inStock': 2, 'promotion': 1, 'cuisine': 1, 'url': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 5, 'price': 4, 'inStock': 5, 'brand': 3, 'productName': 3, 'category': 4, 'subcategory': 4, 'itemType': 5}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'destination': 3, 'country': 3, 'price': 2, 'inStock': 1, 'promotion': 1, 'travelType': 1, 'boardType': 2}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
-
-Format wyników poprawny. Test powtórzony z tymi samymi parametrami (wykonanie 4):
-
+```
+  
+Format wyników poprawny. Test powtórzony z tymi samymi parametrami (wykonanie 4):  
+```python
 {'output': {'price': 10, 'productType': 5, 'category': 4, 'inStock': 3, 'brand': 2, 'currency': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź buty o najmniejszej cenie'}
 {'output': {'productName': 10, 'category': 8, 'subcategory': 7, 'itemType': 6, 'brand': 5, 'price': 4, 'inStock': 3, 'store': 2, 'url': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 10, 'category': 9, 'subcategory': 8, 'price': 7, 'brand': 6, 'productName': 5, 'productLine': 4, 'inStock': 3, 'promotion': 2, 'shippingInfo': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź najbardziej wydajny laptop'}
@@ -295,12 +317,12 @@ Format wyników poprawny. Test powtórzony z tymi samymi parametrami (wykonanie 
 {'output': {'category': 1, 'subcategory': 1, 'itemType': 1, 'productName': 1, 'brand': 0.5, 'price': 0.5, 'inStock': 0.5, 'promotion': 0.5, 'cuisine': 0.5, 'url': 0.3, 'id': 0.1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 32, 'subcategory': 'Gaming', 'category': 'Laptopy', 'inStock': 1, 'brand': 1, 'price': 0.5}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'destination': 5, 'country': 5, 'price': 4, 'promotion': 3, 'inStock': 2, 'travelType': 3, 'subcategory': 3, 'boardType': 4, 'departureInfo': 5, 'location': 1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
+```
+  
 
+Model `inclusionAI/Ling-1T:featherless-ai` przy kwerendzie `Znajdź najbardziej wydajny laptop` ponownie zwrócił błędną merytorycznie odpowiedź   (choć format json jest już poprawnie zachowany). Test powtórzony z tymi samymi parametrami (wykonanie 5):  
 
-
-Model `inclusionAI/Ling-1T:featherless-ai` przy kwerendzie `Znajdź najbardziej wydajny laptop` ponownie zwrócił błędną merytorycznie odpowiedź (choć format json jest już poprawnie zachowany). Test powtórzony z tymi samymi parametrami (wykonanie 5):
-
-
+```python
 {'output': {'price': 10, 'productType': 9, 'inStock': 8, 'currency': 7, 'brand': 6, 'category': 5, 'store': 4, 'url': 3, 'promotion': 2, 'shippingInfo': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź buty o najmniejszej cenie'}
 {'output': {'productName': 3, 'category': 3, 'subcategory': 2, 'brand': 1, 'itemType': 1, 'price': 1, 'currency': 1, 'store': 1, 'url': 1, 'inStock': 1, 'promotion': 1, 'shippingInfo': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 10, 'productName': 9, 'category': 8, 'brand': 7, 'price': 6, 'subcategory': 5, 'productLine': 4, 'model': 3, 'processor': 2, 'screenSize': 1}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź najbardziej wydajny laptop'}
@@ -321,22 +343,25 @@ Model `inclusionAI/Ling-1T:featherless-ai` przy kwerendzie `Znajdź najbardziej 
 {'output': {'category': 1, 'subcategory': 1, 'itemType': 0.5, 'productName': 0.5, 'brand': 0.3, 'price': 0.2, 'inStock': 0.1, 'url': 0.1, 'cuisine': 0.2, 'store': 0.1}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 10, 'price': 7, 'category': 8, 'subcategory': 8, 'inStock': 5, 'brand': 3, 'productLine': 4}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'destination': 3, 'country': 3, 'category': 2, 'subcategory': 2, 'inStock': 1, 'price': 1, 'currency': 1, 'travelType': 1, 'boardType': 2, 'store': 1, 'url': 1, 'promotion': 1, 'id': 0}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
-
-
-Format wyników poprawny.
-
+```
+  
+Format wyników poprawny.  
+  
 W związku z tym, że w jednym z pięciu wykonań obecnej konfiguracji programu model `inclusionAI/Ling-1T:featherless-ai`
-popełnił błąd, zdecydowaliśmy się na następujące metody wykrycia i naprawy błędów:
-- odrzucać wyniki w razie błędu i powtórzyć zapytanie do api dwukrotnie, jeżeli błąd wystąpił
-- zmienić kwerendę tak, żeby priorytety były w zakresie 0-100
-
-Kod i kwerenda zostały zaktualizowane, rozwiązanie zawarte w pliku:
-src/ai_search.py
-
-Nowa kwerenda:
+popełnił błąd, zdecydowaliśmy się na następujące metody wykrycia i naprawy błędów:  
+- odrzucać wyniki w razie błędu i powtórzyć zapytanie do api dwukrotnie, jeżeli błąd wystąpił  
+- zmienić kwerendę tak, żeby priorytety były w zakresie 0-100  
+  
+Kod i kwerenda zostały zaktualizowane, rozwiązanie zawarte w pliku:  
+`src/ai_search.py`
+  
+Nowa kwerenda:  
+```python
 self.ai_prompt_assist = "### Dla podanej wcześniej kwerendy ustal priorytety pól (object properties) danych które najbardziej jej odpowiadają i zwróć tylko jeden obiekt wszystkich pól razem z ich priorytetami - wyższy priorytet znaczy lepsze dopasowanie, jedyny tekst jaki masz wysłać to te pola i priorytet w formacie json, nie pisz nic innego poza rezultatem w formacie json, twoja wiadomość musi składać się tylko ze znaków które można zparsować na JSON, utrzymaj konsekwentnie następujący format: {\"propertyName\": priorityValue, \"propertyName\": priorityValue} - odpowiedź musi zawrzeć się tylko w jednym obiekcie, wartości priorytetów mogą być tylko z zakresu od 0 do 100 włącznie, dane podane są poniżej: ###\n"
-
+```
+  
 Wyniki:
+```python
 {'output': {'price': 100, 'productType': 80, 'inStock': 60, 'currency': 50, 'promotion': 40, 'category': 30, 'brand': 20, 'shippingInfo': 10}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź buty o najmniejszej cenie'}
 {'output': {'itemType': 100, 'productName': 90, 'category': 80, 'subcategory': 70, 'brand': 60, 'price': 50, 'inStock': 40, 'promotion': 30, 'shippingInfo': 20, 'url': 10}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'itemType': 100, 'category': 100, 'subcategory': 80, 'ram': 90, 'ramUnit': 100, 'price': 70, 'inStock': 100, 'brand': 60, 'productLine': 50, 'model': 40, 'processor': 30, 'screenSize': 20, 'promotion': 10, 'shippingInfo': 10, 'usage': 10, 'features': 5, 'formFactor': 5}, 'model': 'deepseek-ai/DeepSeek-V3-0324', 'query': 'Znajdź najbardziej wydajny laptop'}
@@ -357,7 +382,8 @@ Wyniki:
 {'output': {'category': 100, 'subcategory': 100, 'itemType': 100, 'productName': 80, 'brand': 70, 'price': 30, 'inStock': 20, 'promotion': 10}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź narzędzia kuchenne'}
 {'output': {'ram': 100, 'itemType': 100, 'category': 100, 'subcategory': 95, 'price': 85, 'inStock': 80, 'brand': 70, 'productName': 70}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź najbardziej wydajny laptop'}
 {'output': {'destination': 100, 'country': 100, 'category': 100, 'subcategory': 100, 'inStock': 100, 'price': 80, 'currency': 100}, 'model': 'inclusionAI/Ling-1T:featherless-ai', 'query': 'Znajdź wakacje które są najbliżej Polski'}
-
-
-Wnioski:
-...
+```
+    
+## Wnioski:  
+Istotnym rezultatem przeprowadzonych prac jest osiągnięcie pełnej powtarzalności procesu formatowania. Wielokrotne wykonanie procedur testowych wykazało, że wypracowany format zachowuje jednoznaczność w każdej iteracji.  
+Oznacza to, że cel pracy w zakresie standaryzacji został osiągnięty, a system gwarantuje deterministyczne rezultaty, eliminując ryzyko rozbieżności w strukturze generowanych danych.  
