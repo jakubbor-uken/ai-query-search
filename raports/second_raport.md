@@ -1,19 +1,16 @@
-# Raport 2
+# Raport 2 - Test priorytetów pól obiektów w bazie danych
 
-Test priorytetów pól obiektów w bazie danych
+**15.11.2025**  
 
-15.11.2025
 ## 1. Wprowadzenie
-W ramach drugiego raportu przetestowaliśmy modele AI pod kątem ustalania priorytetów pól
-w nowym, bardziej rozbudowanym formacie bazy danych. Dotychczasowe obiekty w bazie
-miały postać:
+W ramach drugiego raportu przetestowaliśmy modele AI pod kątem ustalania priorytetów pól w nowym, bardziej rozbudowanym formacie bazy danych.   Dotychczasowe obiekty w bazie miały postać:  
 ```json
 {
 "id": x,
 "data": y
 }
 ```
-Nowy format obiektów zawierał wiele dodatkowych pól, np.:
+Nowy format obiektów zawierał wiele dodatkowych pól, np.:   
 ```json
 {
 "id": 24,
@@ -35,13 +32,10 @@ Nowy format obiektów zawierał wiele dodatkowych pól, np.:
 "shippingInfo": "Wysyłka 24H"
 }
 ```
-Celem testów było sprawdzenie, czy modele prawidłowo rozpoznają najważniejsze pola
-odpowiadające kwerendzie (np. najtańsze buty, narzędzia kuchenne, najwydajniejsze laptopy,
-wakacje).
+Celem testów było sprawdzenie, czy modele prawidłowo rozpoznają najważniejsze pola odpowiadające kwerendzie (np. najtańsze buty, narzędzia kuchenne, najwydajniejsze laptopy, wakacje).  
 ## 2. Test modelu inclusionAI/Ling-1T:featherless-ai
-Najpierw wykonaliśmy test dla modelu inclusionAI/Ling-1T:featherless-ai, by sprawdzić czy
-zapewni miarodajny rezultat.
-Wynik:
+Najpierw wykonaliśmy test dla modelu inclusionAI/Ling-1T:featherless-ai, by sprawdzić czy zapewni miarodajny rezultat.  
+Wynik:  
 ```json
 [
 {
@@ -111,26 +105,20 @@ Wynik:
 }
 ]
 ```
-Zapytanie Najwyższe priorytety według modelu
-
-Znajdź najtańsze buty price
-
-Znajdź tylko narzędzia kuchenne category, subcategory, productName
-
-Znajdź najwydajniejszy laptop category, subcategory, ram
-
-Znajdź wakacje najbliżej Polski destination, country
+| Zapytanie | Najwyższe priorytety według modelu |
+| :--- | :--- |
+| Znajdź najtańsze buty | `price` |
+| Znajdź tylko narzędzia kuchenne | `category`, `subcategory`, `productName` |
+| Znajdź najwydajniejszy laptop | `category`, `subcategory`, `ram` |
+| Znajdź wakacje najbliżej Polski | `destination`, `country` |
 
 Wniosek:
-Części obiektu o najwyższych priorytetach w większości odpowiadały kwerendzie z main.py.
-Model skutecznie identyfikował pola kluczowe dla zapytania, choć pomijał niektóre
-dodatkowe informacje (np. pola bez ceny). Priorytety były ogólnie celne, choć brakowało
-pełnej spójności w formacie wyjścia.
-
+Części obiektu o najwyższych priorytetach w większości odpowiadały kwerendzie z main.py.  
+Model skutecznie identyfikował pola kluczowe dla zapytania, choć pomijał niektóre dodatkowe informacje (np. pola bez ceny). Priorytety były ogólnie celne, choć brakowało pełnej spójności w formacie wyjścia.  
+  
 ## 3. Testy pozostałych modeli
-Przeprowadziliśmy testy dla wszystkich wcześniej użytych modeli, by sprawdzić czy
-ustalanie priorytetów z pomocą AI zadziała poprawnie.
-Otrzymaliśmy takie wyniki:
+Przeprowadziliśmy testy dla wszystkich wcześniej użytych modeli, by sprawdzić czy ustalanie priorytetów z pomocą AI zadziała poprawnie.  
+Otrzymaliśmy takie wyniki:  
 ```json
 [
 {
@@ -301,26 +289,17 @@ Otrzymaliśmy takie wyniki:
 }
 ]
 ```
-Wnioski:
-Trafność najwyższych priorytetów:
-Części obiektu, które modele uznawały za najwyższe priorytety, w większości odpowiadały
-kwerendzie z main.py. Na przykład w zapytaniu „Znajdź najtańsze buty” pola price,
-promotion i inStock były konsekwentnie traktowane jako kluczowe, co jest zgodne z logiką
-zapytania. W przypadku bardziej złożonych zapytań (np. „Znajdź wakacje najbliżej Polski”)
-modele wskazywały różne kombinacje pól (destination, country, price, currency, inStock),
-które w większości również miały sens w kontekście kwerendy.
-Celność decyzji o priorytecie:
-Decyzje modeli były częściowo celne – w większości przypadków kluczowe pola dla
-zapytania były prawidłowo wskazane. Jednak niektóre dodatkowe atrybuty (np.
-promotionValidUntil, stockStatus) były pomijane lub uzyskiwały bardzo niskie priorytety, co
-może prowadzić do niepełnej interpretacji danych.
-Rozbieżności między modelami:
-Wyniki między modelami nie pokrywały się w pełni. Różnice obejmowały zarówno kolejność
-priorytetów, jak i format wyjścia – modele zwracały dane w formacie JSON, Python dict, a
-czasem list obiektów. Skale priorytetów również były różne: 1–10, 0–1. Często różnice w
-priorytetach pomiędzy modelami wynosiły 1–2 punkty, co wskazuje na brak pełnej spójności
-w rankingowaniu pól.
-Sprawdziliśmy czy po użyciu synonimicznej kwerendy odpowiedź modelu się nie zmieni:
+Wnioski:  
+Trafność najwyższych priorytetów:  
+Części obiektu, które modele uznawały za najwyższe priorytety, w większości odpowiadały kwerendzie z main.py. Na przykład w zapytaniu „Znajdź najtańsze buty” pola price, promotion i inStock były konsekwentnie traktowane jako kluczowe, co jest zgodne z logiką zapytania.   
+W przypadku bardziej złożonych zapytań (np. „Znajdź wakacje najbliżej Polski”) modele wskazywały różne kombinacje pól (destination, country, price, currency, inStock), które w większości również miały sens w kontekście kwerendy.  
+  
+Celność decyzji o priorytecie:  
+Decyzje modeli były częściowo celne – w większości przypadków kluczowe pola dla zapytania były prawidłowo wskazane. Jednak niektóre dodatkowe atrybuty (np. `promotionValidUntil`, `stockStatus`) były pomijane lub uzyskiwały bardzo niskie priorytety, co może prowadzić do niepełnej interpretacji danych.  
+  
+Rozbieżności między modelami:  
+Wyniki między modelami nie pokrywały się w pełni. Różnice obejmowały zarówno kolejność priorytetów, jak i format wyjścia – modele zwracały dane w formacie JSON, Python dict, a czasem list obiektów. Skale priorytetów również były różne: 1–10, 0–1. Często różnice w priorytetach pomiędzy modelami wynosiły 1–2 punkty, co wskazuje na brak pełnej spójności w rankingowaniu pól.  
+Sprawdziliśmy czy po użyciu synonimicznej kwerendy odpowiedź modelu się nie zmieni:  
 ```json
 [
 {
@@ -707,23 +686,13 @@ Sprawdziliśmy czy po użyciu synonimicznej kwerendy odpowiedź modelu się nie 
 ]
 ```
 ### Stabilność przy synonimicznych zapytaniach:
-Użycie synonimów (np. „Znajdź buty o najmniejszej cenie”) pokazało, że niektóre modele
-zmieniały szczegółowo priorytety i format wyjścia – output czasami przyjmował różne skale,
-np. 1–10 lub 0–0,5–1. Poza tym różne modele nadawały nieco odmienne priorytety tym
-samym polom. Mimo to ogólna logika wyboru najważniejszych pól pozostawała podobna –
-kluczowe atrybuty nadal były wskazywane jako istotne, choć z drobnymi różnicami w
-kolejności i skali, a niektóre priorytety były przesunięte o 1–2 punkty. Oznacza to, że nie
-można liczyć na całkowicie jednoznaczny wynik, jednak generalny układ priorytetów
-pozostaje spójny.
+Użycie synonimów (np. „Znajdź buty o najmniejszej cenie”) pokazało, że niektóre modele zmieniały szczegółowo priorytety i format wyjścia – output czasami przyjmował różne skale, np. 1–10 lub 0–0,5–1. Poza tym różne modele nadawały nieco odmienne priorytety tym samym polom. Mimo to ogólna logika wyboru najważniejszych pól pozostawała podobna – kluczowe atrybuty nadal były wskazywane jako istotne, choć z drobnymi różnicami w kolejności i skali, a niektóre priorytety były przesunięte o 1–2 punkty. Oznacza to, że nie można liczyć na całkowicie jednoznaczny wynik, jednak generalny układ priorytetów pozostaje spójny.
+  
 ### Wniosek:
-Ogólnie można uznać, że modele potrafią wskazać główne pola odpowiadające zapytaniom,
-ale wyniki są niejednorodne i nie w pełni stabilne. Decyzja o priorytetach jest w większości
-przypadków sensowna, jednak różnice w formatowaniu i skali priorytetów utrudniają
-porównywanie wyników między modelami i wymuszają ujednolicenie danych przed dalszą
-analizą.
-
+Ogólnie można uznać, że modele potrafią wskazać główne pola odpowiadające zapytaniom, ale wyniki są niejednorodne i nie w pełni stabilne. Decyzja o priorytetach jest w większości przypadków sensowna, jednak różnice w formatowaniu i skali priorytetów utrudniają porównywanie wyników między modelami i wymuszają ujednolicenie danych przed dalszą analizą.
+  
 ## 4. Analiza porównawcza modeli
-Finalnie sprawdziliśmy czy ta sama kwerenda zapewni ten sam wynik:
+Finalnie sprawdziliśmy czy ta sama kwerenda zapewni ten sam wynik:  
 ```json
 {
 "buty_o_najnizszej_cenie": {
@@ -787,7 +756,7 @@ Finalnie sprawdziliśmy czy ta sama kwerenda zapewni ten sam wynik:
 }
 ```
 ## Modele bardziej spójne i wiarygodne:
-
+  
 ### 1. deepseek-ai/DeepSeek-V3-0324
 - Priorytety pól były stabilne i spójne z logiką zapytań (price, inStock, category itd.).
 - Format odpowiedzi w większości przypadków JSON – łatwy do interpretacji.

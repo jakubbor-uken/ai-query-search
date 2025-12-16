@@ -1,34 +1,33 @@
-Raport nr 1
+# Raport 1 - sprawdzanie potencjału rozwiązania
 
 Pierwszy test
-25.10.2025
+**25.10.2025**
 
 ## 1. Cel testu
 
-Celem testu było sprawdzenie, jak różne modele AI interpretują to samo zapytanie użytkownika oraz czy potrafią poprawnie wyłonić najtańsze oferty z tej samej bazy danych JSON.
-
+Celem testu było sprawdzenie, jak różne modele AI interpretują to samo zapytanie użytkownika oraz czy potrafią poprawnie wyłonić najtańsze oferty z tej samej bazy danych JSON.  
+  
 
 ## 2. Wyniki dla wybranych modeli
-
+  
 ### Model: DeepSeek-AI
-
+```python
   { "id": 1, "data": "Tylko u nas znajdziesz trekkingowe Mammuty 250zł na www.tanio.pl" },\
   { "id": 6, "data": "Sandały turystyczne Teva w super cenie 180 PLN - sprawdź na mountain-gear.pl" },\
   { "id": 5, "data": "PROMOCJA! Buty trekkingowe Merrell Moab 2 tylko 320zł - oferta ważna do końca miesiąca" },\
   { "id": 4, "data": "Salomon Speedcross 5 GTX - 489 zł | Darmowa dostawa" },\
   { "id": 0, "data": "Buty sportowe La Sportiva 550zł" },\
   { "id": 8, "data": "Adidas Terrex Free Hiker GTX, cena: 599,99zł" }
-
+```
 ### Model: Moonshot AI
-
-
+```python
   { "id": 6, "data": "Sandały turystyczne Teva w super cenie 180 PLN" },\
   { "id": 1, "data": "Trekkingowe Mammuty 250zł" },\
   { "id": 5, "data": "Merrell Moab 2 tylko 320zł" },\
   { "id": 0, "data": "La Sportiva 550zł" },\
   { "id": 4, "data": "Salomon Speedcross 5 GTX - 489 zł" },\
   { "id": 8, "data": "Adidas Terrex Free Hiker GTX 599,99zł" }
-
+```
 ### Model: Meta AI
 
 Model przeprowadził szczegółową analizę danych, wyodrębnił ceny z tekstu i zaproponował algorytm w Pythonie do ich ekstrakcji i porównania.
@@ -41,7 +40,7 @@ Najtańsze wykryte produkty:
 Model poprawnie zidentyfikował najniższą cenę, ale pominął rekordy bez cen.
 
 ### Model: OpenAI
-
+```python
   { "id": 6, "data": "Sandały turystyczne Teva w super cenie 180 PLN" },\
   { "id": 1, "data": "Trekkingowe Mammuty 250zł" },\
   { "id": 5, "data": "Merrell Moab 2 tylko 320zł" },\
@@ -51,7 +50,7 @@ Model poprawnie zidentyfikował najniższą cenę, ale pominął rekordy bez cen
   { "id": 2, "data": "Poradnik wyboru butów" },\
   { "id": 3, "data": "" },\
   { "id": 7, "data": "Recenzja butów Columbia Redmond" }
-
+```
 ### Model: InclusionAI
 
 Model jasno określił priorytet: najniższa cena, a następnie poprawnie posortował produkty:
